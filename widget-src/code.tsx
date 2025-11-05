@@ -1,5 +1,5 @@
 const { widget } = figma
-const { useSyncedState, usePropertyMenu, AutoLayout, Text, SVG, Input, Rectangle } = widget
+const { useSyncedState, usePropertyMenu, useEffect, AutoLayout, Text, SVG, Input, Rectangle } = widget
 
 interface TodoItem {
   id: string
@@ -35,16 +35,23 @@ function Widget() {
       id: `task-${index}`,
       text: task.text,
       completed: false,
-      category: task.category,
+      category: task.category || 'States',
       createdAt: Date.now() + index
     }))
   }
 
-  const [todos, setTodos] = useSyncedState<TodoItem[]>('todos', getInitialTasks())
+  const [todos, setTodos] = useSyncedState<TodoItem[]>('todos', [])
   const [newTodoText, setNewTodoText] = useSyncedState('newTodoText', '')
   const [selectedCategory, setSelectedCategory] = useSyncedState('selectedCategory', 'States')
   const [activeTab, setActiveTab] = useSyncedState('activeTab', 'tasks')
   const [enabledTasks, setEnabledTasks] = useSyncedState('enabledTasks', defaultComponentTasks.map(task => task.text))
+
+  // Initialize todos if empty - using useEffect to avoid setting state during render
+  useEffect(() => {
+    if (todos.length === 0) {
+      setTodos(getInitialTasks())
+    }
+  })
 
   const addTodo = () => {
     if (newTodoText.trim()) {
@@ -76,15 +83,14 @@ function Widget() {
   }
 
   const getCategoryColor = (category: string): string => {
-    const colors: { [key: string]: string } = {
-      'States': '#4CAF50',
-      'Props & Variants': '#2196F3',
-      'Documentation': '#FF9800',
-      'Testing': '#F44336',
-      'Accessibility': '#795548',
-      'Implementation': '#607D8B'
-    }
-    return colors[category] || '#9E9E9E'
+    // Using static mapping only
+    if (category === 'States') return '#4CAF50'
+    if (category === 'Props & Variants') return '#2196F3'
+    if (category === 'Documentation') return '#FF9800'
+    if (category === 'Testing') return '#F44336'
+    if (category === 'Accessibility') return '#795548'
+    if (category === 'Implementation') return '#607D8B'
+    return '#9E9E9E'
   }
 
   const categories = ['States', 'Props & Variants', 'Documentation', 'Implementation', 'Testing', 'Accessibility']
@@ -99,13 +105,7 @@ function Widget() {
       fill="#f0f0f0"
       stroke="#E0E0E0"
       strokeWidth={1}
-      width={400}
-      effect={{
-        type: "drop-shadow",
-        color: { r: 0, g: 0, b: 0, a: 0.1 },
-        offset: { x: 0, y: 2 },
-        blur: 8,
-      }}
+      width={640}
     >
       {/* Tab Navigation */}
       <AutoLayout direction="horizontal" spacing={0} width="fill-parent">
@@ -113,7 +113,7 @@ function Widget() {
           direction="horizontal"
           spacing={8}
           padding={{horizontal: 16, vertical: 12}}
-          fill={activeTab === 'tasks' ? "#FFFFFF" : "transparent"}
+          fill={activeTab === 'tasks' ? "#FFFFFF" : "#f0f0f0"}
           cornerRadius={{topLeft: 12, topRight: 0, bottomLeft: 0, bottomRight: 0}}
           onClick={() => setActiveTab('tasks')}
           width="fill-parent"
@@ -126,7 +126,7 @@ function Widget() {
           direction="horizontal"
           spacing={8}
           padding={{horizontal: 16, vertical: 12}}
-          fill={activeTab === 'new' ? "#FFFFFF" : "transparent"}
+          fill={activeTab === 'new' ? "#FFFFFF" : "#f0f0f0"}
           onClick={() => setActiveTab('new')}
           width="fill-parent"
           horizontalAlignItems="center"
@@ -138,7 +138,7 @@ function Widget() {
           direction="horizontal"
           spacing={8}
           padding={{horizontal: 16, vertical: 12}}
-          fill={activeTab === 'settings' ? "#FFFFFF" : "transparent"}
+          fill={activeTab === 'settings' ? "#FFFFFF" : "#f0f0f0"}
           cornerRadius={{topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 0}}
           onClick={() => setActiveTab('settings')}
           width="fill-parent"
@@ -187,12 +187,6 @@ function Widget() {
                   stroke="#E9E9E9"
                   strokeWidth={1}
                   width="fill-parent"
-                  effect={todo.completed ? undefined : {
-                    type: "drop-shadow",
-                    color: { r: 0.8, g: 0.8, b: 0.8, a: 1 },
-                    offset: { x: 0, y: 1 },
-                    blur: 4,
-                  }}
                 >
                   {/* Checkbox */}
                   <SVG
@@ -215,16 +209,18 @@ function Widget() {
                     </Text>
                     
                     {/* Category Tag */}
-                    <AutoLayout
-                      padding={{horizontal: 8, vertical: 4}}
-                      cornerRadius={12}
-                      fill={getCategoryColor(todo.category)}
-                      width="hug-contents"
-                    >
-                      <Text fontSize={12} fill="#FFFFFF" fontWeight={500}>
-                        {todo.category}
-                      </Text>
-                    </AutoLayout>
+                    {todo.category && (
+                      <AutoLayout
+                        padding={{horizontal: 8, vertical: 4}}
+                        cornerRadius={12}
+                        fill="#2196F3"
+                        width="hug-contents"
+                      >
+                        <Text fontSize={12} fill="#FFFFFF" fontWeight={500}>
+                          {todo.category}
+                        </Text>
+                      </AutoLayout>
+                    )}
                   </AutoLayout>
                 </AutoLayout>
               ))
@@ -242,26 +238,53 @@ function Widget() {
             {/* Category Selection */}
             <AutoLayout direction="vertical" spacing={8} width="fill-parent">
               <Text fontSize={14} fill="#666666">Category</Text>
-              <AutoLayout direction="horizontal" spacing={8} width="fill-parent">
-                {categories.map((category) => (
-                  <AutoLayout
-                    key={category}
-                    padding={{horizontal: 12, vertical: 8}}
-                    cornerRadius={6}
-                    fill={selectedCategory === category ? getCategoryColor(category) : "#F5F5F5"}
-                    stroke={selectedCategory === category ? "transparent" : "#E0E0E0"}
-                    strokeWidth={1}
-                    onClick={() => setSelectedCategory(category)}
-                  >
-                    <Text 
-                      fontSize={12} 
-                      fill={selectedCategory === category ? "#FFFFFF" : "#666666"}
-                      fontWeight={selectedCategory === category ? 600 : 400}
+              <AutoLayout direction="vertical" spacing={8} width="fill-parent">
+                <AutoLayout direction="horizontal" spacing={8} width="fill-parent">
+                  {categories.slice(0, 3).map((category) => (
+                    <AutoLayout
+                      key={category}
+                      padding={{horizontal: 12, vertical: 8}}
+                      cornerRadius={6}
+                      fill={selectedCategory === category ? "#2196F3" : "#F5F5F5"}
+                      stroke={selectedCategory === category ? "#2196F3" : "#E0E0E0"}
+                      strokeWidth={1}
+                      onClick={() => setSelectedCategory(category)}
+                      width="fill-parent"
+                      horizontalAlignItems="center"
                     >
-                      {category}
-                    </Text>
-                  </AutoLayout>
-                ))}
+                      <Text 
+                        fontSize={12} 
+                        fill={selectedCategory === category ? "#FFFFFF" : "#666666"}
+                        fontWeight={selectedCategory === category ? 600 : 400}
+                      >
+                        {category}
+                      </Text>
+                    </AutoLayout>
+                  ))}
+                </AutoLayout>
+                <AutoLayout direction="horizontal" spacing={8} width="fill-parent">
+                  {categories.slice(3).map((category) => (
+                    <AutoLayout
+                      key={category}
+                      padding={{horizontal: 12, vertical: 8}}
+                      cornerRadius={6}
+                      fill={selectedCategory === category ? "#2196F3" : "#F5F5F5"}
+                      stroke={selectedCategory === category ? "#2196F3" : "#E0E0E0"}
+                      strokeWidth={1}
+                      onClick={() => setSelectedCategory(category)}
+                      width="fill-parent"
+                      horizontalAlignItems="center"
+                    >
+                      <Text 
+                        fontSize={12} 
+                        fill={selectedCategory === category ? "#FFFFFF" : "#666666"}
+                        fontWeight={selectedCategory === category ? 600 : 400}
+                      >
+                        {category}
+                      </Text>
+                    </AutoLayout>
+                  ))}
+                </AutoLayout>
               </AutoLayout>
             </AutoLayout>
             
@@ -308,7 +331,7 @@ function Widget() {
             <AutoLayout direction="vertical" spacing={12} width="fill-parent">
               {categories.map((category) => (
                 <AutoLayout key={category} direction="vertical" spacing={8} width="fill-parent">
-                  <Text fontSize={14} fontWeight={600} fill={getCategoryColor(category)}>
+                  <Text fontSize={14} fontWeight={600} fill="#2196F3">
                     {category}
                   </Text>
                   
