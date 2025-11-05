@@ -10,23 +10,67 @@ interface TodoItem {
 }
 
 const defaultComponentTasks = [
-  { text: "Added empty state", category: "States" },
-  { text: "Added loading state", category: "States" },
-  { text: "Added hover state", category: "States" },
-  { text: "Added focus state", category: "States" },
-  { text: "Defined all props", category: "Props & Variants" },
-  { text: "Applied design variables", category: "Props & Variants" },
-  { text: "Added documentation link", category: "Documentation" },
-  { text: "Added component description", category: "Documentation" },
-  { text: "Added alias names", category: "Documentation" },
-  { text: "Named all layers properly", category: "Implementation" },
-  { text: "Tested autolayout for flexibility", category: "Testing" },
-  { text: "Tested with long text strings", category: "Testing" },
-  { text: "Tested accessibility color contrast", category: "Accessibility" },
-  { text: "Added code connect", category: "Implementation" },
-  { text: "Added annotations", category: "Documentation" },
-  { text: "Tested in light and dark mode", category: "Testing" },
-  { text: "Composed sub components", category: "Implementation" }
+  // States
+  { text: "Empty state", category: "States" },
+  { text: "Hover state", category: "States" },
+  { text: "Focus state", category: "States" },
+  { text: "Error state", category: "States" },
+  { text: "Disabled state", category: "States" },
+  { text: "Loading state", category: "States" },
+  { text: "Selected state", category: "States" },
+  
+  // Linting
+  { text: "Name all layers properly", category: "Linting" },
+  { text: "Apply variables", category: "Linting" },
+  { text: "Apply text styles", category: "Linting" },
+  { text: "Compose sub components", category: "Linting" },
+  { text: "Add code connect", category: "Linting" },
+  
+  // Props & Variants
+  { text: "Define all props", category: "Props & Variants" },
+  { text: "Create responsive variants", category: "Props & Variants" },
+  { text: "Support portrait and landscape", category: "Props & Variants" },
+  
+  // Color & Contrast
+  { text: "Text contrast meets 4.5:1", category: "Color & Contrast" },
+  { text: "UI component contrast meets 3:1", category: "Color & Contrast" },
+  { text: "Large text contrast meets 3:1", category: "Color & Contrast" },
+  { text: "Avoid color-only communication", category: "Color & Contrast" },
+  { text: "Test with color blindness simulator", category: "Color & Contrast" },
+  
+  // Touch & Interaction
+  { text: "Touch targets minimum 44x44px", category: "Touch & Interaction" },
+  { text: "Keyboard focus indicator visible", category: "Touch & Interaction" },
+  { text: "Gesture alternatives provided", category: "Touch & Interaction" },
+  
+  // Content & Labels
+  { text: "Buttons have descriptive labels", category: "Content & Labels" },
+  { text: "Form fields clearly labeled", category: "Content & Labels" },
+  { text: "Required fields indicated", category: "Content & Labels" },
+  { text: "Error messages are clear", category: "Content & Labels" },
+  { text: "Icons have sufficient contrast", category: "Content & Labels" },
+  { text: "Alt text specified for images", category: "Content & Labels" },
+  
+  // Layout & Zoom
+  { text: "Supports 200% zoom", category: "Layout & Zoom" },
+  { text: "No horizontal viewport scrolling for text", category: "Layout & Zoom" },
+  { text: "Content reflows responsively", category: "Layout & Zoom" },
+  { text: "Supports text scaling", category: "Layout & Zoom" },
+  
+  // Documentation
+  { text: "Add component description", category: "Documentation" },
+  { text: "Add documentation link", category: "Documentation" },
+  { text: "Add alias names", category: "Documentation" },
+  { text: "Document keyboard navigation", category: "Documentation" },
+  { text: "Include accessibility notes", category: "Documentation" },
+  
+  // Testing
+  { text: "Test autolayout flexibility", category: "Testing" },
+  { text: "Test with long text strings", category: "Testing" },
+  { text: "Test in light and dark mode", category: "Testing" },
+  { text: "Test with screen reader", category: "Testing" },
+  { text: "Test keyboard navigation", category: "Testing" },
+  { text: "Test on mobile viewport", category: "Testing" }
 ]
 
 function Widget() {
@@ -45,7 +89,7 @@ function Widget() {
   const [selectedCategory, setSelectedCategory] = useSyncedState('selectedCategory', 'States')
   const [activeTab, setActiveTab] = useSyncedState('activeTab', 'tasks')
   const [enabledTasks, setEnabledTasks] = useSyncedState('enabledTasks', defaultComponentTasks.map(task => task.text))
-  const [expandedCategories, setExpandedCategories] = useSyncedState<string[]>('expandedCategories', ['States', 'Props & Variants', 'Documentation', 'Implementation', 'Testing', 'Accessibility'])
+  const [expandedCategories, setExpandedCategories] = useSyncedState<string[]>('expandedCategories', [])
 
   // Initialize todos if empty - using useEffect to avoid setting state during render
   useEffect(() => {
@@ -94,22 +138,25 @@ function Widget() {
   const getCategoryColor = (category: string): string => {
     // Using static mapping only
     if (category === 'States') return '#4CAF50'
+    if (category === 'Linting') return '#607D8B'
     if (category === 'Props & Variants') return '#2196F3'
-    if (category === 'Documentation') return '#FF9800'
+    if (category === 'Color & Contrast') return '#FF9800'
+    if (category === 'Touch & Interaction') return '#9C27B0'
+    if (category === 'Content & Labels') return '#00BCD4'
+    if (category === 'Layout & Zoom') return '#795548'
+    if (category === 'Documentation') return '#FF5722'
     if (category === 'Testing') return '#F44336'
-    if (category === 'Accessibility') return '#795548'
-    if (category === 'Implementation') return '#607D8B'
     return '#9E9E9E'
   }
 
-  const categories = ['States', 'Props & Variants', 'Documentation', 'Implementation', 'Testing', 'Accessibility']
+  const categories = ['States', 'Linting', 'Props & Variants', 'Color & Contrast', 'Touch & Interaction', 'Content & Labels', 'Layout & Zoom', 'Documentation', 'Testing']
   const visibleTodos = todos.filter(todo => enabledTasks.includes(todo.text))
 
   return (
     <AutoLayout
       direction="vertical"
-      spacing={12}
-      padding={12}
+      spacing={8}
+      padding={4}
       cornerRadius={12}
       fill="#F5F5F5"
       stroke="#E0E0E0"
@@ -124,7 +171,7 @@ function Widget() {
           padding={{horizontal: 12, vertical: 12}}
           stroke={activeTab === 'tasks' ? "#005AA1" : "#E0E0E0"}
           strokeWidth={1}
-          cornerRadius={12}
+          cornerRadius={8}
           fill={activeTab === 'tasks' ? "#007DE0" : "#F5F5F5"}
           onClick={() => setActiveTab('tasks')}
           width="hug-contents"
@@ -142,7 +189,7 @@ function Widget() {
           padding={{horizontal: 12, vertical: 12}}
           stroke={activeTab === 'settings' ? "#005AA1" : "#E0E0E0"}
           strokeWidth={1}
-          cornerRadius={12}
+          cornerRadius={8}
           fill={activeTab === 'settings' ? "#007DE0" : "#F5F5F5"}
           onClick={() => setActiveTab('settings')}
           width="hug-contents"
@@ -163,7 +210,7 @@ function Widget() {
           padding={{horizontal: 12, vertical: 12}}
           stroke={activeTab === 'new' ? "#005AA1" : "#E0E0E0"}
           strokeWidth={1}
-          cornerRadius={12}
+          cornerRadius={8}
           fill={activeTab === 'new' ? "#007DE0" : "#F5F5F5"}
           onClick={() => setActiveTab('new')}
           width="hug-contents"
@@ -182,14 +229,14 @@ function Widget() {
         spacing={16}
         width="fill-parent"
         fill="#F5F5F5"
-        cornerRadius={{topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12}}
       >
         {/* Tasks Tab */}
         {activeTab === 'tasks' && (
-          <AutoLayout direction="vertical" spacing={12} width="fill-parent">
+          <AutoLayout fill={"#ffffff"} cornerRadius={8} direction="vertical" padding={4} spacing={4} width="fill-parent">
             {visibleTodos.length === 0 ? (
               <AutoLayout
                 direction="vertical"
+                cornerRadius={4}
                 spacing={8}
                 padding={24}
                 width="fill-parent"
@@ -215,23 +262,16 @@ function Widget() {
                   <AutoLayout 
                     key={category} 
                     direction="vertical" 
-                    spacing={0} 
                     width="fill-parent"
-                    fill="#FFFFFF"
-                    cornerRadius={12}
-                    stroke="#E0E0E0"
-                    strokeWidth={1}
                     overflow="visible"
                   >
                     {/* Accordion Header */}
                     <AutoLayout
+                      cornerRadius={4}
                       direction="horizontal"
                       spacing={12}
                       padding={{horizontal: 12, vertical: 12}}
-                      cornerRadius={{topLeft: 12, topRight: 12, bottomLeft: isExpanded ? 0 : 12, bottomRight: isExpanded ? 0 : 12}}
                       fill="#FAFAFA"
-                      stroke="#E0E0E0"
-                      strokeWidth={1}
                       width="fill-parent"
                       verticalAlignItems="center"
                       onClick={() => toggleCategory(category)}
@@ -245,7 +285,7 @@ function Widget() {
                       />
                       
                       <AutoLayout direction="vertical" spacing={2} width="fill-parent">
-                        <Text fontSize={15} fontWeight={600} fill="#333333">
+                        <Text fontSize={14} fontWeight={600} fill="#333333">
                           {category}
                         </Text>
                         <Text fontSize={12} fill="#999999">
@@ -267,7 +307,7 @@ function Widget() {
                     
                     {/* Accordion Content */}
                     {isExpanded && (
-                      <AutoLayout direction="vertical" spacing={6} width="fill-parent" padding={{horizontal: 12, vertical: 12, top: 8, bottom: 8}}>
+                      <AutoLayout direction="vertical" spacing={8} width="fill-parent" padding={{horizontal: 12, vertical: 12, top: 8, bottom: 8}}>
                         {categoryTodos.map((todo) => (
                           <AutoLayout
                             key={todo.id}
@@ -276,8 +316,6 @@ function Widget() {
                             padding={2}
                             cornerRadius={12}
                             fill={todo.completed ? "#F9F9F9" : "#FFFFFF"}
-                            // stroke="#E9E9E9"
-                            // strokeWidth={1}
                             width="fill-parent"
                           >
                             {/* Checkbox */}
@@ -422,7 +460,7 @@ function Widget() {
             </Text>
             
             {/* Task Categories and Items - Accordion Style */}
-            <AutoLayout direction="vertical" spacing={12} width="fill-parent">
+            <AutoLayout direction="vertical" spacing={8} width="fill-parent">
               {categories.map((category) => {
                 const categoryTasks = defaultComponentTasks.filter(task => task.category === category)
                 const isExpanded = expandedCategories.includes(category)
@@ -435,10 +473,9 @@ function Widget() {
                     direction="vertical" 
                     spacing={0} 
                     width="fill-parent"
-                    fill="#FFFFFF"
                     cornerRadius={8}
-                    stroke="#E0E0E0"
-                    strokeWidth={1}
+                    stroke={isExpanded ? "#E0E0E0" : undefined}
+                    strokeWidth={isExpanded ? 1 : 0}
                     overflow="visible"
                   >
                     {/* Accordion Header */}
@@ -446,10 +483,8 @@ function Widget() {
                       direction="horizontal"
                       spacing={12}
                       padding={{horizontal: 12, vertical: 12}}
-                      cornerRadius={{topLeft: 8, topRight: 8, bottomLeft: isExpanded ? 0 : 8, bottomRight: isExpanded ? 0 : 8}}
+                      cornerRadius={isExpanded ? {topLeft: 8, topRight: 8} : 8}
                       fill="#FAFAFA"
-                      stroke="#E0E0E0"
-                      strokeWidth={1}
                       width="fill-parent"
                       verticalAlignItems="center"
                       onClick={() => toggleCategory(category)}
