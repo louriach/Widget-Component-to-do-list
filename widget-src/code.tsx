@@ -73,6 +73,76 @@ const defaultComponentTasks = [
   { text: "Test with screen reader", category: "Testing" }
 ]
 
+// Component type definitions
+const componentTypes = [
+  {
+    category: "Forms",
+    examples: ["Button/CTA", "Text Input", "Checkbox", "Radio Button", "Toggle/Switch", "Select/Dropdown", "Date Picker", "Search Field"],
+    priorityTasks: [
+      "Error state",
+      "Focus state",
+      "Disabled state",
+      "Touch targets meet 44x44px",
+      "Form fields clearly labeled",
+      "Required fields indicated",
+      "Error messages are clear",
+      "Keyboard focus indicator visible",
+      "Text contrast meets 4.5:1"
+    ]
+  },
+  {
+    category: "Navigation",
+    examples: ["Nav Bar/Menu", "Breadcrumb", "Tab Group", "Pagination", "Sidebar", "Link"],
+    priorityTasks: [
+      "Hover state",
+      "Focus state",
+      "Selected state",
+      "Keyboard focus indicator visible",
+      "Touch targets meet 44x44px",
+      "Buttons have descriptive labels",
+      "Document keyboard navigation",
+      "Test keyboard navigation"
+    ]
+  },
+  {
+    category: "Data",
+    examples: ["Table/Data Grid", "List", "Card", "Chart/Graph", "Timeline"],
+    priorityTasks: [
+      "Empty state",
+      "Loading state",
+      "Test with long text strings",
+      "Content reflows responsively",
+      "Supports text scaling",
+      "Supports 200% zoom",
+      "Component contrast meets 3:1"
+    ]
+  },
+  {
+    category: "Layout",
+    examples: ["Container/Frame", "Grid/Stack", "Divider", "Spacer", "Section Header"],
+    priorityTasks: [
+      "Create responsive variants",
+      "Support portrait and landscape",
+      "Test autolayout flexibility",
+      "Content reflows responsively",
+      "Supports 200% zoom",
+      "No horizontal viewport text scrolling"
+    ]
+  },
+  {
+    category: "Display",
+    examples: ["Badge/Tag", "Avatar", "Icon", "Tooltip", "Alert/Banner", "Status Indicator", "Progress Bar", "Skeleton Loader"],
+    priorityTasks: [
+      "Component contrast meets 3:1",
+      "Icons have sufficient contrast",
+      "Avoid color-only communication",
+      "Test with color blindness simulator",
+      "Alt text specified for images",
+      "Supports text scaling"
+    ]
+  }
+]
+
 // Pre-compute the default task texts once for performance
 const defaultTaskTexts = defaultComponentTasks.map(task => task.text)
 const defaultTaskTextsSet = new Set(defaultTaskTexts)
@@ -91,9 +161,11 @@ function Widget() {
   const [todos, setTodos] = useSyncedState<TodoItem[]>('todos', [])
   const [newTodoText, setNewTodoText] = useSyncedState('newTodoText', '')
   const [selectedCategory, setSelectedCategory] = useSyncedState('selectedCategory', 'States')
-  const [activeTab, setActiveTab] = useSyncedState('activeTab', 'tasks')
+  const [activeTab, setActiveTab] = useSyncedState('activeTab', 'setup')
   const [enabledTasks, setEnabledTasks] = useSyncedState('enabledTasks', defaultTaskTexts)
   const [expandedCategories, setExpandedCategories] = useSyncedState<string[]>('expandedCategories', [])
+  const [componentType, setComponentType] = useSyncedState<string>('componentType', '')
+  const [componentExample, setComponentExample] = useSyncedState<string>('componentExample', '')
 
   // Initialize todos if empty - using useEffect to avoid setting state during render
   useEffect(() => {
@@ -101,6 +173,14 @@ function Widget() {
       setTodos(getInitialTasks())
     }
   })
+
+  const applyComponentTypeFilter = (typeCategory: string) => {
+    const selectedType = componentTypes.find(t => t.category === typeCategory)
+    if (selectedType) {
+      // Enable only the priority tasks for this component type
+      setEnabledTasks(selectedType.priorityTasks)
+    }
+  }
 
   const addTodo = () => {
     if (newTodoText.trim()) {
@@ -177,6 +257,28 @@ function Widget() {
     >
       {/* Tab Navigation */}
       <AutoLayout direction="horizontal" spacing={6} width="fill-parent" fill={"#007DE0"} cornerRadius={8} padding={6}>
+        {/* Component Type Indicator (only show if type is selected) */}
+        {componentType && activeTab !== 'setup' ? (
+          <AutoLayout
+            direction="horizontal"
+            spacing={6}
+            padding={{horizontal: 10, vertical: 8}}
+            cornerRadius={4}
+            fill="#ffffff"
+            width="hug-contents"
+            verticalAlignItems="center"
+            onClick={() => setActiveTab('setup')}
+            hoverStyle={{fill: "#F5F5F5"}}
+          >
+            <Text fontSize={12} fill="#007DE0" fontWeight={600}>{componentType}</Text>
+            <SVG
+              src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#007DE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`}
+              width={12}
+              height={12}
+            />
+          </AutoLayout>
+        ) : null}
+        
         <AutoLayout
           direction="horizontal"
           spacing={8}
@@ -242,6 +344,111 @@ function Widget() {
         width="fill-parent"
         fill="#F5F5F5"
       >
+        {/* Setup Tab - Component Type Selection */}
+        {activeTab === 'setup' && (
+          <AutoLayout 
+            direction="vertical" 
+            spacing={24} 
+            width="fill-parent"
+            padding={24}
+            fill="#FFFFFF"
+            cornerRadius={8}
+            stroke="#E0E0E0"
+            strokeWidth={1}
+          >
+            <AutoLayout direction="vertical" spacing={8} width="fill-parent">
+              <Text fontSize={18} fontWeight={700} fill="#333333">
+                What type of component are you creating?
+              </Text>
+              <Text fontSize={14} fill="#666666">
+                We'll customize your checklist based on the component type
+              </Text>
+            </AutoLayout>
+            
+            {/* Component Type Selection */}
+            <AutoLayout direction="vertical" spacing={12} width="fill-parent">
+              {componentTypes.map((type) => (
+                <AutoLayout
+                  key={type.category}
+                  direction="vertical"
+                  onClick={() => {
+                    setComponentType(type.category)
+                    setComponentExample('')
+                  }}
+                  spacing={4}
+                  width="fill-parent"
+                  padding={16}
+                  fill={componentType === type.category ? "#E3F2FD" : "#FAFAFA"}
+                  cornerRadius={8}
+                  stroke={componentType === type.category ? "#007DE0" : "#E0E0E0"}
+                  strokeWidth={componentType === type.category ? 2 : 1}
+                  hoverStyle={{fill: componentType === type.category ? "#E3F2FD" : "#F5F5F5"}}
+                >
+                  <AutoLayout direction="horizontal" spacing={12} width="fill-parent" verticalAlignItems="center">
+                    {/* Radio Button */}
+                    <SVG
+                      src={componentType === type.category
+                        ? `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" stroke="#007DE0" stroke-width="2"/><circle cx="10" cy="10" r="5" fill="#007DE0"/></svg>`
+                        : `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" stroke="#999999" stroke-width="2"/></svg>`
+                      }
+                      width={20}
+                      height={20}
+                    />
+                    <Text 
+                      fontSize={16} 
+                      fill="#333333"
+                      fontWeight={componentType === type.category ? 600 : 500}
+                    >
+                      {type.category}
+                    </Text>
+                  </AutoLayout>
+                  
+                  {/* Examples */}
+                  <AutoLayout direction="horizontal" spacing={6} width="fill-parent" padding={{left: 32}}>
+                    <Text fontSize={12} fill="#999999">
+                      {type.examples.length > 3 
+                        ? type.examples.slice(0, 3).join(", ") + "..."
+                        : type.examples.join(", ")
+                      }
+                    </Text>
+                  </AutoLayout>
+                </AutoLayout>
+              ))}
+            </AutoLayout>
+            
+            {/* Continue Button */}
+            {componentType ? (
+              <AutoLayout
+                padding={{horizontal: 24, vertical: 12}}
+                cornerRadius={8}
+                fill="#007DE0"
+                onClick={() => {
+                  applyComponentTypeFilter(componentType)
+                  setActiveTab('tasks')
+                }}
+                width="fill-parent"
+                horizontalAlignItems="center"
+                hoverStyle={{fill: "#0066B8"}}
+              >
+                <Text fontSize={16} fill="#FFFFFF" fontWeight={600}>Continue to Checklist</Text>
+              </AutoLayout>
+            ) : null}
+            
+            {/* Skip Option */}
+            <AutoLayout
+              onClick={() => {
+                setComponentType('All')
+                setEnabledTasks(defaultTaskTexts)
+                setActiveTab('tasks')
+              }}
+              width="fill-parent"
+              horizontalAlignItems="center"
+            >
+              <Text fontSize={14} fill="#007DE0" fontWeight={500}>Skip - Show all tasks</Text>
+            </AutoLayout>
+          </AutoLayout>
+        )}
+
         {/* Tasks Tab */}
         {activeTab === 'tasks' && (() => {
           // Pre-compute all data structures for faster rendering
