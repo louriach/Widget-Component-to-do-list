@@ -61,86 +61,212 @@ const defaultComponentTasks = [
   { text: "Add alias names", category: "Documentation" },
   { text: "Add component description", category: "Documentation" },
   { text: "Add documentation link", category: "Documentation" },
-  { text: "Document keyboard navigation", category: "Documentation" },
+  { text: "Document keyboard Navigation", category: "Documentation" },
   { text: "Include accessibility notes", category: "Documentation" },
   
   // Testing
   { text: "Test autolayout flexibility", category: "Testing" },
   { text: "Test in light and dark mode", category: "Testing" },
-  { text: "Test keyboard navigation", category: "Testing" },
+  { text: "Test keyboard Navigation", category: "Testing" },
   { text: "Test on mobile viewport", category: "Testing" },
   { text: "Test with long text strings", category: "Testing" },
   { text: "Test with screen reader", category: "Testing" }
 ]
 
-// Component type definitions
-const componentTypes = [
-  {
-    category: "Forms",
-    examples: ["Button/CTA", "Text Input", "Checkbox", "Radio Button", "Toggle/Switch", "Select/Dropdown", "Date Picker", "Search Field"],
-    priorityTasks: [
-      "Error state",
-      "Focus state",
-      "Disabled state",
-      "Touch targets meet 44x44px",
-      "Form fields clearly labeled",
-      "Required fields indicated",
-      "Error messages are clear",
-      "Keyboard focus indicator visible",
-      "Text contrast meets 4.5:1"
-    ]
+// Component definitions with priority tasks
+const components = [
+  { 
+    name: "Accordion", 
+    category: "Navigation & structure",
+    description: "A vertically stacked set of expandable sections that reveal or hide content.",
+    priorityTasks: ["Hover state", "Focus state", "Keyboard focus indicator visible", "Test keyboard Navigation", "Icons have sufficient contrast"]
   },
-  {
-    category: "Navigation",
-    examples: ["Nav Bar/Menu", "Breadcrumb", "Tab Group", "Pagination", "Sidebar", "Link"],
-    priorityTasks: [
-      "Hover state",
-      "Focus state",
-      "Selected state",
-      "Keyboard focus indicator visible",
-      "Touch targets meet 44x44px",
-      "Buttons have descriptive labels",
-      "Document keyboard navigation",
-      "Test keyboard navigation"
-    ]
+  { 
+    name: "Alert", 
+    category: "Messaging & feedback",
+    description: "A prominent message that communicates important information requiring user attention.",
+    priorityTasks: ["Component contrast meets 3:1", "Icons have sufficient contrast", "Avoid color-only communication", "Text contrast meets 4.5:1", "Error messages are clear"]
   },
-  {
-    category: "Data",
-    examples: ["Table/Data Grid", "List", "Card", "Chart/Graph", "Timeline"],
-    priorityTasks: [
-      "Empty state",
-      "Loading state",
-      "Test with long text strings",
-      "Content reflows responsively",
-      "Supports text scaling",
-      "Supports 200% zoom",
-      "Component contrast meets 3:1"
-    ]
+  { 
+    name: "Avatar", 
+    category: "Media & visual content",
+    description: "A small visual representation of a user, entity, or object—often an image, initials, or icon.",
+    priorityTasks: ["Alt text specified for images", "Component contrast meets 3:1"]
   },
-  {
-    category: "Layout",
-    examples: ["Container/Frame", "Grid/Stack", "Divider", "Spacer", "Section Header"],
-    priorityTasks: [
-      "Create responsive variants",
-      "Support portrait and landscape",
-      "Test autolayout flexibility",
-      "Content reflows responsively",
-      "Supports 200% zoom",
-      "No horizontal viewport text scrolling"
-    ]
+  { 
+    name: "Badge", 
+    category: "Media & visual content",
+    description: "A compact indicator used to display status, counts, or attributes.",
+    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Supports text scaling"]
   },
-  {
-    category: "Display",
-    examples: ["Badge/Tag", "Avatar", "Icon", "Tooltip", "Alert/Banner", "Status Indicator", "Progress Bar", "Skeleton Loader"],
-    priorityTasks: [
-      "Component contrast meets 3:1",
-      "Icons have sufficient contrast",
-      "Avoid color-only communication",
-      "Test with color blindness simulator",
-      "Alt text specified for images",
-      "Supports text scaling"
-    ]
+  { 
+    name: "Breadcrumb", 
+    category: "Navigation & structure",
+    description: "A navigation pattern showing the user's position in the site hierarchy.",
+    priorityTasks: ["Hover state", "Focus state", "Keyboard focus indicator visible", "Buttons have descriptive labels"]
+  },
+  { 
+    name: "Button", 
+    category: "Actions & buttons",
+    description: "A trigger for an action such as submitting a form, opening a dialog, or navigating.",
+    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Loading state", "Touch targets meet 44x44px", "Text contrast meets 4.5:1", "Keyboard focus indicator visible", "Buttons have descriptive labels"]
+  },
+  { 
+    name: "Calendar", 
+    category: "Inputs & form controls",
+    description: "A visual date selection grid.",
+    priorityTasks: ["Focus state", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation", "Form fields clearly labeled"]
+  },
+  { 
+    name: "Card", 
+    category: "Navigation & structure",
+    description: "A contained block that groups related content and actions.",
+    priorityTasks: ["Hover state", "Empty state", "Test with long text strings", "Content reflows responsively", "Component contrast meets 3:1"]
+  },
+  { 
+    name: "Checkbox", 
+    category: "Inputs & form controls",
+    description: "A control that allows users to select one or multiple independent options.",
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Touch targets meet 44x44px", "Form fields clearly labeled", "Keyboard focus indicator visible"]
+  },
+  { 
+    name: "Combobox", 
+    category: "Inputs & form controls",
+    description: "A combination of input and dropdown that lets users select or type a value.",
+    priorityTasks: ["Focus state", "Empty state", "Loading state", "Form fields clearly labeled", "Keyboard focus indicator visible", "Test keyboard Navigation"]
+  },
+  { 
+    name: "Data table", 
+    category: "Data & lists",
+    description: "A structured grid for displaying and manipulating tabular data.",
+    priorityTasks: ["Empty state", "Loading state", "Test with long text strings", "Content reflows responsively", "Supports 200% zoom", "Text contrast meets 4.5:1"]
+  },
+  { 
+    name: "Date picker", 
+    category: "Inputs & form controls",
+    description: "A control for selecting a specific date, often with an integrated calendar.",
+    priorityTasks: ["Focus state", "Form fields clearly labeled", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation"]
+  },
+  { 
+    name: "Dialog", 
+    category: "Overlays & layering",
+    description: "A modal UI element that captures user focus and requires interaction.",
+    priorityTasks: ["Focus state", "Keyboard focus indicator visible", "Test keyboard Navigation", "Component contrast meets 3:1"]
+  },
+  { 
+    name: "Dropdown menu", 
+    category: "Actions & buttons",
+    description: "A floating menu of selectable actions or options.",
+    priorityTasks: ["Hover state", "Focus state", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation"]
+  },
+  { 
+    name: "Form", 
+    category: "Inputs & form controls",
+    description: "A structured collection of inputs used for submitting information.",
+    priorityTasks: ["Form fields clearly labeled", "Required fields indicated", "Error messages are clear", "Test keyboard Navigation"]
+  },
+  { 
+    name: "Input", 
+    category: "Inputs & form controls",
+    description: "A field for entering or editing text.",
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Text contrast meets 4.5:1"]
+  },
+  { 
+    name: "Navigation menu", 
+    category: "Navigation & structure",
+    description: "A component for navigating between major sections or categories.",
+    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation"]
+  },
+  { 
+    name: "Pagination", 
+    category: "Navigation & structure",
+    description: "A control for navigating between pages of content.",
+    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Keyboard focus indicator visible"]
+  },
+  { 
+    name: "Popover", 
+    category: "Overlays & layering",
+    description: "A non-modal, contextual layer that presents supplementary content.",
+    priorityTasks: ["Focus state", "Keyboard focus indicator visible", "Test keyboard Navigation", "Component contrast meets 3:1"]
+  },
+  { 
+    name: "Progress", 
+    category: "Progress & status",
+    description: "A visual indicator representing progress toward completion.",
+    priorityTasks: ["Component contrast meets 3:1", "Avoid color-only communication", "Text contrast meets 4.5:1"]
+  },
+  { 
+    name: "Select", 
+    category: "Inputs & form controls",
+    description: "A control for selecting one item from a predefined list.",
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Empty state", "Form fields clearly labeled", "Required fields indicated", "Keyboard focus indicator visible"]
+  },
+  { 
+    name: "Sidebar", 
+    category: "Navigation & structure",
+    description: "A vertical, persistent panel used for navigation or secondary content.",
+    priorityTasks: ["Create responsive variants", "Content reflows responsively", "Touch targets meet 44x44px"]
+  },
+  { 
+    name: "Slider", 
+    category: "Inputs & form controls",
+    description: "A control allowing users to select a numeric value by dragging a handle.",
+    priorityTasks: ["Focus state", "Disabled state", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Form fields clearly labeled"]
+  },
+  { 
+    name: "Switch", 
+    category: "Inputs & form controls",
+    description: "A binary toggle representing an on/off state.",
+    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Form fields clearly labeled", "Avoid color-only communication"]
+  },
+  { 
+    name: "Table", 
+    category: "Data & lists",
+    description: "A structured, sortable display of rows and columns.",
+    priorityTasks: ["Empty state", "Loading state", "Test with long text strings", "Content reflows responsively", "Supports 200% zoom", "Text contrast meets 4.5:1"]
+  },
+  { 
+    name: "Tabs", 
+    category: "Navigation & structure",
+    description: "A set of horizontally or vertically arranged triggers that switch between views.",
+    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation"]
+  },
+  { 
+    name: "Textarea", 
+    category: "Inputs & form controls",
+    description: "A multi-line input field.",
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Test with long text strings"]
+  },
+  { 
+    name: "Toast", 
+    category: "Messaging & feedback",
+    description: "An ephemeral notification that appears temporarily without blocking UI.",
+    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Avoid color-only communication", "Icons have sufficient contrast"]
+  },
+  { 
+    name: "Toggle", 
+    category: "Actions & buttons",
+    description: "A selectable, often pill-shaped control for switching between states or options.",
+    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "Avoid color-only communication"]
+  },
+  { 
+    name: "Tooltip", 
+    category: "Overlays & layering",
+    description: "A small contextual hint that appears on hover or focus.",
+    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Keyboard focus indicator visible", "Test keyboard Navigation"]
   }
+]
+
+// Group components by category for display
+const categories = [
+  "Actions & buttons",
+  "Inputs & form controls",
+  "Navigation & structure",
+  "Data & lists",
+  "Media & visual content",
+  "Overlays & layering",
+  "Messaging & feedback",
+  "Progress & status"
 ]
 
 // Pre-compute the default task texts once for performance
@@ -164,8 +290,7 @@ function Widget() {
   const [activeTab, setActiveTab] = useSyncedState('activeTab', 'setup')
   const [enabledTasks, setEnabledTasks] = useSyncedState('enabledTasks', defaultTaskTexts)
   const [expandedCategories, setExpandedCategories] = useSyncedState<string[]>('expandedCategories', [])
-  const [componentType, setComponentType] = useSyncedState<string>('componentType', '')
-  const [componentExample, setComponentExample] = useSyncedState<string>('componentExample', '')
+  const [selectedComponent, setSelectedComponent] = useSyncedState<string>('selectedComponent', '')
 
   // Initialize todos if empty - using useEffect to avoid setting state during render
   useEffect(() => {
@@ -174,11 +299,11 @@ function Widget() {
     }
   })
 
-  const applyComponentTypeFilter = (typeCategory: string) => {
-    const selectedType = componentTypes.find(t => t.category === typeCategory)
-    if (selectedType) {
-      // Enable only the priority tasks for this component type
-      setEnabledTasks(selectedType.priorityTasks)
+  const applyComponentFilter = (componentName: string) => {
+    const selected = components.find(c => c.name === componentName)
+    if (selected) {
+      // Enable only the priority tasks for this component
+      setEnabledTasks(selected.priorityTasks)
     }
   }
 
@@ -242,7 +367,7 @@ function Widget() {
     return '#9E9E9E'
   }
 
-  const categories = ['States', 'Linting', 'Props & Variants', 'Color & Contrast', 'Touch & Interaction', 'Content & Labels', 'Layout & Zoom', 'Documentation', 'Testing']
+  const taskCategories = ['States', 'Linting', 'Props & Variants', 'Color & Contrast', 'Touch & Interaction', 'Content & Labels', 'Layout & Zoom', 'Documentation', 'Testing']
 
   return (
     <AutoLayout
@@ -257,8 +382,8 @@ function Widget() {
     >
       {/* Tab Navigation */}
       <AutoLayout direction="horizontal" spacing={6} width="fill-parent" fill={"#007DE0"} cornerRadius={8} padding={6}>
-        {/* Component Type Indicator (only show if type is selected) */}
-        {componentType && activeTab !== 'setup' ? (
+        {/* Component Type Indicator (only show if component is selected) */}
+        {selectedComponent && activeTab !== 'setup' ? (
           <AutoLayout
             direction="horizontal"
             spacing={6}
@@ -270,7 +395,7 @@ function Widget() {
             onClick={() => setActiveTab('setup')}
             hoverStyle={{fill: "#F5F5F5"}}
           >
-            <Text fontSize={12} fill="#007DE0" fontWeight={600}>{componentType}</Text>
+            <Text fontSize={12} fill="#007DE0" fontWeight={600}>{selectedComponent}</Text>
             <SVG
               src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#007DE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`}
               width={12}
@@ -344,11 +469,11 @@ function Widget() {
         width="fill-parent"
         fill="#F5F5F5"
       >
-        {/* Setup Tab - Component Type Selection */}
+        {/* Setup Tab - Component Selection */}
         {activeTab === 'setup' && (
           <AutoLayout 
             direction="vertical" 
-            spacing={24} 
+            spacing={20} 
             width="fill-parent"
             padding={24}
             fill="#FFFFFF"
@@ -356,95 +481,112 @@ function Widget() {
             stroke="#E0E0E0"
             strokeWidth={1}
           >
-            <AutoLayout direction="vertical" spacing={8} width="fill-parent">
+            <AutoLayout direction="vertical" spacing={4} width="fill-parent">
               <Text fontSize={18} fontWeight={700} fill="#333333">
-                What type of component are you creating?
+                What component are you building?
               </Text>
               <Text fontSize={14} fill="#666666">
-                We'll customize your checklist based on the component type
+                Select a component to get a customized checklist
               </Text>
             </AutoLayout>
             
-            {/* Component Type Selection */}
-            <AutoLayout direction="vertical" spacing={12} width="fill-parent">
-              {componentTypes.map((type) => (
-                <AutoLayout
-                  key={type.category}
-                  direction="vertical"
-                  onClick={() => {
-                    setComponentType(type.category)
-                    setComponentExample('')
-                  }}
-                  spacing={4}
-                  width="fill-parent"
-                  padding={16}
-                  fill={componentType === type.category ? "#E3F2FD" : "#FAFAFA"}
-                  cornerRadius={8}
-                  stroke={componentType === type.category ? "#007DE0" : "#E0E0E0"}
-                  strokeWidth={componentType === type.category ? 2 : 1}
-                  hoverStyle={{fill: componentType === type.category ? "#E3F2FD" : "#F5F5F5"}}
-                >
-                  <AutoLayout direction="horizontal" spacing={12} width="fill-parent" verticalAlignItems="center">
-                    {/* Radio Button */}
-                    <SVG
-                      src={componentType === type.category
-                        ? `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" stroke="#007DE0" stroke-width="2"/><circle cx="10" cy="10" r="5" fill="#007DE0"/></svg>`
-                        : `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" stroke="#999999" stroke-width="2"/></svg>`
-                      }
-                      width={20}
-                      height={20}
-                    />
-                    <Text 
-                      fontSize={16} 
-                      fill="#333333"
-                      fontWeight={componentType === type.category ? 600 : 500}
-                    >
-                      {type.category}
-                    </Text>
-                  </AutoLayout>
-                  
-                  {/* Examples */}
-                  <AutoLayout direction="horizontal" spacing={6} width="fill-parent" padding={{left: 32}}>
-                    <Text fontSize={12} fill="#999999">
-                      {type.examples.length > 3 
-                        ? type.examples.slice(0, 3).join(", ") + "..."
-                        : type.examples.join(", ")
-                      }
-                    </Text>
-                  </AutoLayout>
-                </AutoLayout>
-              ))}
+            {/* Component List - Flat Alphabetical */}
+            <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+              {/* Sort components alphabetically */}
+              {(() => {
+                const sortedComponents = [...components].sort((a, b) => a.name.localeCompare(b.name))
+                return Array.from({ length: Math.ceil(sortedComponents.length / 3) }, (_, rowIndex) => {
+                  const rowItems = sortedComponents.slice(rowIndex * 3, rowIndex * 3 + 3)
+                  return (
+                    <AutoLayout key={rowIndex} direction="horizontal" spacing={4} width="fill-parent">
+                      {rowItems.map((comp) => (
+                        <AutoLayout
+                          key={comp.name}
+                          direction="horizontal"
+                          onClick={() => setSelectedComponent(comp.name)}
+                          spacing={6}
+                          width="fill-parent"
+                          height={48}
+                          padding={{horizontal: 8, vertical: 8}}
+                          fill={selectedComponent === comp.name ? "#E3F2FD" : "#FFFFFF"}
+                          cornerRadius={6}
+                          stroke={selectedComponent === comp.name ? "#007DE0" : "#E0E0E0"}
+                          strokeWidth={1}
+                          hoverStyle={{fill: selectedComponent === comp.name ? "#E3F2FD" : "#F5F5F5"}}
+                          verticalAlignItems="end"
+                          horizontalAlignItems="start"
+                        >
+                          <Text 
+                            fontSize={13} 
+                            fill="#333333"
+                            fontWeight={500}
+                          >
+                            {comp.name}
+                          </Text>
+                        </AutoLayout>
+                      ))}
+                      {/* Add spacers for incomplete rows */}
+                      {Array.from({ length: 3 - rowItems.length }).map((_, i) => (
+                        <AutoLayout key={`spacer-${i}`} width="fill-parent" height={1} />
+                      ))}
+                    </AutoLayout>
+                  )
+                })
+              })()}
             </AutoLayout>
             
             {/* Continue Button */}
-            {componentType ? (
+            {selectedComponent ? (
               <AutoLayout
                 padding={{horizontal: 24, vertical: 12}}
                 cornerRadius={8}
                 fill="#007DE0"
                 onClick={() => {
-                  applyComponentTypeFilter(componentType)
+                  applyComponentFilter(selectedComponent)
                   setActiveTab('tasks')
                 }}
                 width="fill-parent"
                 horizontalAlignItems="center"
                 hoverStyle={{fill: "#0066B8"}}
               >
-                <Text fontSize={16} fill="#FFFFFF" fontWeight={600}>Continue to Checklist</Text>
+                <Text fontSize={16} fill="#FFFFFF" fontWeight={600}>Continue to checklist</Text>
               </AutoLayout>
             ) : null}
             
-            {/* Skip Option */}
+            {/* Don't know option */}
             <AutoLayout
-              onClick={() => {
-                setComponentType('All')
-                setEnabledTasks(defaultTaskTexts)
-                setActiveTab('tasks')
-              }}
+              direction="vertical"
+              spacing={12}
               width="fill-parent"
-              horizontalAlignItems="center"
+              padding={12}
+              fill="#FFFFFF"
+              cornerRadius={8}
+              stroke="#4B4B4B"
+              strokeWidth={1}
+              verticalAlignItems="center"
             >
-              <Text fontSize={14} fill="#007DE0" fontWeight={500}>Skip - Show all tasks</Text>
+              <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+                <Text fontSize={14} fontWeight={600} fill="#4B4B4B">
+                  Not sure what component you're building?
+                </Text>
+                <Text fontSize={13} fill="#4B4B4B">
+                  Start with the full checklist and customise as you go.
+                </Text>
+              </AutoLayout>
+              
+              <AutoLayout
+                padding={{horizontal: 12, vertical: 8}}
+                cornerRadius={6}
+                fill="#4B4B4B"
+                onClick={() => {
+                  setSelectedComponent('Custom')
+                  setEnabledTasks(defaultTaskTexts)
+                  setActiveTab('tasks')
+                }}
+                hoverStyle={{fill: "#000000"}}
+              >
+                <Text fontSize={14} fill="#FFFFFF" fontWeight={600}>Make custom component</Text>
+              </AutoLayout>
             </AutoLayout>
           </AutoLayout>
         )}
@@ -466,7 +608,7 @@ function Widget() {
           }
           
           // Filter categories that have todos
-          const categoriesWithTodos = categories.filter(category => {
+          const categoriesWithTodos = taskCategories.filter(category => {
             const categoryTodos = todosByCategory.get(category)
             return categoryTodos && categoryTodos.length > 0
           })
@@ -625,9 +767,9 @@ function Widget() {
               <Text fontSize={14} fill="#666666">Category</Text>
               <AutoLayout direction="vertical" spacing={8} width="fill-parent">
                 {/* Create rows with 2 columns each */}
-                {Array.from({ length: Math.ceil(categories.length / 2) }, (_, rowIndex) => (
+                {Array.from({ length: Math.ceil(taskCategories.length / 2) }, (_, rowIndex) => (
                   <AutoLayout key={rowIndex} direction="horizontal" spacing={8} width="fill-parent">
-                    {categories.slice(rowIndex * 2, rowIndex * 2 + 2).map((category) => (
+                    {taskCategories.slice(rowIndex * 2, rowIndex * 2 + 2).map((category) => (
                       <AutoLayout
                         key={category}
                         direction="horizontal"
@@ -661,7 +803,7 @@ function Widget() {
             
             {/* Task Input */}
             <AutoLayout direction="vertical" spacing={8} width="fill-parent">
-              <Text fontSize={14} fill="#666666">Task Description</Text>
+              <Text fontSize={14} fill="#666666">Task description</Text>
               <AutoLayout
                 padding={12}
                 fill="#FFFFFF"
@@ -732,7 +874,7 @@ function Widget() {
               {/* Text Content */}
               <AutoLayout direction="vertical" spacing={4} width="fill-parent">
                 <Text fontSize={16} fill="#333333" fontWeight={600}>
-                  Manage Tasks
+                  Manage tasks
                 </Text>
                 <Text fontSize={13} fill="#666666">
                   Choose which tasks appear in your checklist
@@ -754,7 +896,7 @@ function Widget() {
             </AutoLayout>
             
             {/* Task Categories and Items - Accordion Style */}
-            {categories.map((category) => {
+            {taskCategories.map((category) => {
               // Use pre-grouped data instead of filtering
               const defaultCategoryTasks = defaultTasksByCategory.get(category) || []
               const customCategoryTasks = customTasksByCategory.get(category) || []
