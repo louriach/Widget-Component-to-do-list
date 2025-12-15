@@ -166,7 +166,7 @@ const components = [
     priorityTasks: ["Form fields clearly labeled", "Required fields indicated", "Error messages are clear", "Test keyboard Navigation"]
   },
   { 
-    name: "Input", 
+    name: "Input Field", 
     category: "Inputs & form controls",
     description: "A field for entering or editing text.",
     priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Text contrast meets 4.5:1"]
@@ -373,17 +373,15 @@ function Widget() {
     <AutoLayout
       direction="vertical"
       spacing={8}
-      padding={4}
+      padding={2}
       cornerRadius={12}
-      fill="#F5F5F5"
-      stroke="#E0E0E0"
-      strokeWidth={1}
+      fill="#71AFBE"
       width={560}
     >
-      {/* Tab Navigation */}
-      <AutoLayout direction="horizontal" spacing={6} width="fill-parent" fill={"#007DE0"} cornerRadius={8} padding={6}>
-        {/* Component Type Indicator (only show if component is selected) */}
-        {selectedComponent && activeTab !== 'setup' ? (
+      {/* Tab Navigation - only show after proceeding from setup */}
+      {selectedComponent && activeTab !== 'setup' ? (
+        <AutoLayout direction="horizontal" spacing={6} width="fill-parent" fill={"#007DE0"} cornerRadius={8} padding={6}>
+          {/* Home button */}
           <AutoLayout
             direction="horizontal"
             spacing={6}
@@ -395,79 +393,76 @@ function Widget() {
             onClick={() => setActiveTab('setup')}
             hoverStyle={{fill: "#F5F5F5"}}
           >
-            <Text fontSize={12} fill="#007DE0" fontWeight={600}>{selectedComponent}</Text>
             <SVG
-              src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#007DE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`}
+              src={`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 6L2.5 6M2.5 6L6 9.5M2.5 6L6 2.5" stroke="#007DE0" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
               width={12}
               height={12}
             />
           </AutoLayout>
-        ) : null}
-        
-        <AutoLayout
-          direction="horizontal"
-          spacing={8}
-          padding={{horizontal: 8, vertical: 8}}
-          cornerRadius={4}
-          fill={activeTab === 'tasks' ? "#ffffff" : "#007DE0"}
-          hoverStyle={activeTab === 'tasks' ? undefined : {fill: "#1A8AE3"}}
-          onClick={() => setActiveTab('tasks')}
-          width="hug-contents"
-          horizontalAlignItems="center"
-          verticalAlignItems="center"
-        >
-          <SVG
-            src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${activeTab === 'tasks' ? '#007DE0' : '#ffffff'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 5H3"/><path d="M16 12H3"/><path d="M11 19H3"/><path d="m15 18 2 2 4-4"/></svg>`}
-          />
-          <Text fontSize={14} fill={activeTab === 'tasks' ? '#007DE0' : '#ffffff'} fontWeight={600}>Tasks</Text>
+          
+          <AutoLayout
+            direction="horizontal"
+            spacing={8}
+            padding={{horizontal: 8, vertical: 8}}
+            cornerRadius={4}
+            fill={activeTab === 'tasks' ? "#ffffff" : "#007DE0"}
+            hoverStyle={activeTab === 'tasks' ? undefined : {fill: "#1A8AE3"}}
+            onClick={() => setActiveTab('tasks')}
+            width="hug-contents"
+            horizontalAlignItems="center"
+            verticalAlignItems="center"
+          >
+            <SVG
+              src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${activeTab === 'tasks' ? '#007DE0' : '#ffffff'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 5H3"/><path d="M16 12H3"/><path d="M11 19H3"/><path d="m15 18 2 2 4-4"/></svg>`}
+            />
+            <Text fontSize={14} fill={activeTab === 'tasks' ? '#007DE0' : '#ffffff'} fontWeight={600}>Tasks</Text>
+          </AutoLayout>
+          
+          <AutoLayout
+            direction="horizontal"
+            spacing={8}
+            padding={{horizontal: 8, vertical: 8}}
+            cornerRadius={4}
+            fill={activeTab === 'settings' ? "#ffffff" : "#007DE0"}
+            hoverStyle={activeTab === 'settings' ? undefined : {fill: "#1A8AE3"}}
+            onClick={() => setActiveTab('settings')}
+            width="hug-contents"
+            horizontalAlignItems="center"
+            verticalAlignItems="center"
+          >
+            <SVG
+              src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${activeTab === 'settings' ? '#007DE0' : '#ffffff'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>`}
+            />
+            <Text fontSize={14} fill={activeTab === 'settings' ? '#007DE0' : '#ffffff'} fontWeight={600}>Settings</Text>
+          </AutoLayout>
+          
+          {/* Spacer to push Add custom task to the right */}
+          <AutoLayout width="fill-parent" height={1} />
+          
+          <AutoLayout
+            direction="horizontal"
+            spacing={8}
+            padding={{horizontal: 8, vertical: 8}}
+            cornerRadius={4}
+            fill={activeTab === 'new' ? "#ffffff" : "#007DE0"}
+            hoverStyle={activeTab === 'new' ? undefined : {fill: "#1A8AE3"}}
+            onClick={() => setActiveTab('new')}
+            width="hug-contents"
+            horizontalAlignItems="center"
+            verticalAlignItems="center"
+          >
+            <SVG
+              src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${activeTab === 'new' ? '#007DE0' : '#ffffff'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`}
+            />
+            <Text fontSize={14} fill={activeTab === 'new' ? '#007DE0' : '#ffffff'} fontWeight={600}>Custom task</Text>
+          </AutoLayout>
         </AutoLayout>
-        
-        <AutoLayout
-          direction="horizontal"
-          spacing={8}
-          padding={{horizontal: 8, vertical: 8}}
-          cornerRadius={4}
-          fill={activeTab === 'settings' ? "#ffffff" : "#007DE0"}
-          hoverStyle={activeTab === 'settings' ? undefined : {fill: "#1A8AE3"}}
-          onClick={() => setActiveTab('settings')}
-          width="hug-contents"
-          horizontalAlignItems="center"
-          verticalAlignItems="center"
-        >
-          <SVG
-            src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${activeTab === 'settings' ? '#007DE0' : '#ffffff'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>`}
-          />
-          <Text fontSize={14} fill={activeTab === 'settings' ? '#007DE0' : '#ffffff'} fontWeight={600}>Settings</Text>
-        </AutoLayout>
-        
-        {/* Spacer to push Add custom task to the right */}
-        <AutoLayout width="fill-parent" height={1} />
-        
-        <AutoLayout
-          direction="horizontal"
-          spacing={8}
-          padding={{horizontal: 8, vertical: 8}}
-          cornerRadius={4}
-          fill={activeTab === 'new' ? "#ffffff" : "#007DE0"}
-          hoverStyle={activeTab === 'new' ? undefined : {fill: "#1A8AE3"}}
-          onClick={() => setActiveTab('new')}
-          width="hug-contents"
-          horizontalAlignItems="center"
-          verticalAlignItems="center"
-        >
-          <SVG
-            src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${activeTab === 'new' ? '#007DE0' : '#ffffff'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`}
-          />
-          <Text fontSize={14} fill={activeTab === 'new' ? '#007DE0' : '#ffffff'} fontWeight={600}>Custom task</Text>
-        </AutoLayout>
-      </AutoLayout>
+      ) : null}
 
       {/* Tab Content */}
       <AutoLayout
         direction="vertical"
-        spacing={16}
         width="fill-parent"
-        fill="#F5F5F5"
       >
         {/* Setup Tab - Component Selection */}
         {activeTab === 'setup' && (
@@ -476,82 +471,85 @@ function Widget() {
             spacing={20} 
             width="fill-parent"
             padding={24}
-            fill="#FFFFFF"
-            cornerRadius={8}
-            stroke="#E0E0E0"
-            strokeWidth={1}
+            fill="#001D24"
+            cornerRadius={10}
           >
             <AutoLayout direction="vertical" spacing={4} width="fill-parent">
-              <Text fontSize={18} fontWeight={700} fill="#333333">
+              <Text fontSize={18} fontWeight={700} fill="#fff">
                 What component are you building?
               </Text>
-              <Text fontSize={14} fill="#666666">
+              <Text fontSize={14} fill="#d1d1d1">
                 Select a component to get a customized checklist
               </Text>
             </AutoLayout>
             
             {/* Component List - Flat Alphabetical */}
-            <AutoLayout direction="vertical" spacing={4} width="fill-parent">
-              {/* Sort components alphabetically */}
-              {(() => {
-                const sortedComponents = [...components].sort((a, b) => a.name.localeCompare(b.name))
-                return Array.from({ length: Math.ceil(sortedComponents.length / 3) }, (_, rowIndex) => {
-                  const rowItems = sortedComponents.slice(rowIndex * 3, rowIndex * 3 + 3)
-                  return (
-                    <AutoLayout key={rowIndex} direction="horizontal" spacing={4} width="fill-parent">
-                      {rowItems.map((comp) => (
-                        <AutoLayout
-                          key={comp.name}
-                          direction="horizontal"
-                          onClick={() => setSelectedComponent(comp.name)}
-                          spacing={6}
-                          width="fill-parent"
-                          height={48}
-                          padding={{horizontal: 8, vertical: 8}}
-                          fill={selectedComponent === comp.name ? "#E3F2FD" : "#FFFFFF"}
-                          cornerRadius={6}
-                          stroke={selectedComponent === comp.name ? "#007DE0" : "#E0E0E0"}
-                          strokeWidth={1}
-                          hoverStyle={{fill: selectedComponent === comp.name ? "#E3F2FD" : "#F5F5F5"}}
-                          verticalAlignItems="end"
-                          horizontalAlignItems="start"
-                        >
-                          <Text 
-                            fontSize={13} 
-                            fill="#333333"
-                            fontWeight={500}
+              <AutoLayout direction="vertical" fill="#001D24" spacing={12} padding={{horizontal: 12, vertical: 12}} cornerRadius={12} stroke="#232C2F" strokeWidth={1} width="fill-parent">
+              <AutoLayout spacing={4} direction="vertical" width="fill-parent">
+                {/* Sort components alphabetically */}
+                {(() => {
+                  const sortedComponents = [...components].sort((a, b) => a.name.localeCompare(b.name))
+                  return Array.from({ length: Math.ceil(sortedComponents.length / 3) }, (_, rowIndex) => {
+                    const rowItems = sortedComponents.slice(rowIndex * 3, rowIndex * 3 + 3)
+                    return (
+                      <AutoLayout key={rowIndex} direction="horizontal" spacing={4} width="fill-parent">
+                        {rowItems.map((comp) => (
+                          <AutoLayout
+                            key={comp.name}
+                            direction="horizontal"
+                            onClick={() => setSelectedComponent(comp.name)}
+                            spacing={6}
+                            width="fill-parent"
+                            height={48}
+                            padding={{horizontal: 8, vertical: 8}}
+                            fill={selectedComponent === comp.name ? "#172D33" : "#072027"}
+                            cornerRadius={6}
+                            stroke={selectedComponent === comp.name ? "#71AFBE" : "#172D33"}
+                            strokeWidth={1}
+                            hoverStyle={{fill: "#172D33"}}
+                            verticalAlignItems="end"
+                            horizontalAlignItems="start"
                           >
-                            {comp.name}
-                          </Text>
-                        </AutoLayout>
-                      ))}
-                      {/* Add spacers for incomplete rows */}
-                      {Array.from({ length: 3 - rowItems.length }).map((_, i) => (
-                        <AutoLayout key={`spacer-${i}`} width="fill-parent" height={1} />
-                      ))}
-                    </AutoLayout>
-                  )
-                })
-              })()}
-            </AutoLayout>
-            
+                            <Text 
+                              fontSize={13} 
+                              fill="#d1d1d1"
+                              fontWeight={600}
+                            >
+                              {comp.name}
+                            </Text>
+                          </AutoLayout>
+                        ))}
+                        {/* Add spacers for incomplete rows */}
+                        {Array.from({ length: 3 - rowItems.length }).map((_, i) => (
+                          <AutoLayout key={`spacer-${i}`} width="fill-parent" height={1} />
+                        ))}
+                      </AutoLayout>
+                    )
+                  })
+                })()}
+              </AutoLayout>
             {/* Continue Button */}
             {selectedComponent ? (
               <AutoLayout
                 padding={{horizontal: 24, vertical: 12}}
-                cornerRadius={8}
-                fill="#007DE0"
+                cornerRadius={6}
+                fill="#71AFBE"
+                stroke="#8FDAED"
+                strokeWidth={1}
                 onClick={() => {
                   applyComponentFilter(selectedComponent)
                   setActiveTab('tasks')
                 }}
                 width="fill-parent"
                 horizontalAlignItems="center"
-                hoverStyle={{fill: "#0066B8"}}
+                hoverStyle={{fill: "#000000"}}
               >
-                <Text fontSize={16} fill="#FFFFFF" fontWeight={600}>Continue to checklist</Text>
+                <Text fontSize={13} fill="#001D24" fontWeight={700}>Continue to checklist</Text>
               </AutoLayout>
             ) : null}
+            </AutoLayout>
+            
+
             
             {/* Don't know option */}
             <AutoLayout
@@ -559,17 +557,17 @@ function Widget() {
               spacing={12}
               width="fill-parent"
               padding={12}
-              fill="#FFFFFF"
+              fill="#001D24"
               cornerRadius={8}
-              stroke="#4B4B4B"
+              stroke="#232C2F"
               strokeWidth={1}
               verticalAlignItems="center"
             >
               <AutoLayout direction="vertical" spacing={4} width="fill-parent">
-                <Text fontSize={14} fontWeight={600} fill="#4B4B4B">
+                <Text fontSize={14} fontWeight={600} fill="#fff">
                   Not sure what component you're building?
                 </Text>
-                <Text fontSize={13} fill="#4B4B4B">
+                <Text fontSize={13} fill="#d1d1d1">
                   Start with the full checklist and customise as you go.
                 </Text>
               </AutoLayout>
@@ -577,7 +575,9 @@ function Widget() {
               <AutoLayout
                 padding={{horizontal: 12, vertical: 8}}
                 cornerRadius={6}
-                fill="#4B4B4B"
+                fill="#71AFBE"
+                stroke="#8FDAED"
+                strokeWidth={1}
                 onClick={() => {
                   setSelectedComponent('Custom')
                   setEnabledTasks(defaultTaskTexts)
@@ -585,7 +585,7 @@ function Widget() {
                 }}
                 hoverStyle={{fill: "#000000"}}
               >
-                <Text fontSize={14} fill="#FFFFFF" fontWeight={600}>Make custom component</Text>
+                <Text fontSize={13} fill="#001D24" fontWeight={700}>Make custom component</Text>
               </AutoLayout>
             </AutoLayout>
           </AutoLayout>
