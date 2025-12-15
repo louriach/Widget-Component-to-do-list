@@ -84,7 +84,7 @@ const components = [
   { 
     name: "Alert", 
     category: "Messaging & feedback",
-    description: "A prominent message that communicates important information requiring user attention.",
+    description: "A prominent message that alerts users to important information, system events, or actions requiring attention.",
     priorityTasks: ["Component contrast meets 3:1", "Icons have sufficient contrast", "Avoid color-only communication", "Text contrast meets 4.5:1", "Error messages are clear"]
   },
   { 
@@ -100,6 +100,18 @@ const components = [
     priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Supports text scaling"]
   },
   { 
+    name: "Image", 
+    category: "Media & visual content",
+    description: "Media for capturing attention and communicating messages through photos or graphics.",
+    priorityTasks: ["Alt text specified for images", "Test with color blindness simulator", "Text contrast meets 4.5:1", "Create responsive variants", "Supports 200% zoom"]
+  },
+  { 
+    name: "Video", 
+    category: "Media & visual content",
+    description: "A player for displaying and controlling video content with playback controls and accessibility features.",
+    priorityTasks: ["Alt text specified for images", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation", "Component contrast meets 3:1", "Icons have sufficient contrast", "Avoid color-only communication"]
+  },
+  { 
     name: "Breadcrumb", 
     category: "Navigation & structure",
     description: "A navigation pattern showing the user's position in the site hierarchy.",
@@ -112,13 +124,19 @@ const components = [
     priorityTasks: ["Hover state", "Focus state", "Disabled state", "Loading state", "Touch targets meet 44x44px", "Text contrast meets 4.5:1", "Keyboard focus indicator visible", "Buttons have descriptive labels"]
   },
   { 
+    name: "Icon Button", 
+    category: "Actions & buttons",
+    description: "A button represented by an icon without visible text, designed for compact actions.",
+    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Icons have sufficient contrast", "Keyboard focus indicator visible", "Buttons have descriptive labels", "Component contrast meets 3:1"]
+  },
+  { 
     name: "Calendar", 
     category: "Inputs & form controls",
     description: "A visual date selection grid.",
     priorityTasks: ["Focus state", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation", "Form fields clearly labeled"]
   },
   { 
-    name: "Card", 
+    name: "Card / Tile", 
     category: "Navigation & structure",
     description: "A contained block that groups related content and actions.",
     priorityTasks: ["Hover state", "Empty state", "Test with long text strings", "Content reflows responsively", "Component contrast meets 3:1"]
@@ -136,34 +154,22 @@ const components = [
     priorityTasks: ["Focus state", "Empty state", "Loading state", "Form fields clearly labeled", "Keyboard focus indicator visible", "Test keyboard Navigation"]
   },
   { 
-    name: "Data table", 
-    category: "Data & lists",
-    description: "A structured grid for displaying and manipulating tabular data.",
-    priorityTasks: ["Empty state", "Loading state", "Test with long text strings", "Content reflows responsively", "Supports 200% zoom", "Text contrast meets 4.5:1"]
-  },
-  { 
-    name: "Date picker", 
-    category: "Inputs & form controls",
-    description: "A control for selecting a specific date, often with an integrated calendar.",
-    priorityTasks: ["Focus state", "Form fields clearly labeled", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation"]
-  },
-  { 
     name: "Dialog", 
     category: "Overlays & layering",
     description: "A modal UI element that captures user focus and requires interaction.",
     priorityTasks: ["Focus state", "Keyboard focus indicator visible", "Test keyboard Navigation", "Component contrast meets 3:1"]
   },
   { 
-    name: "Dropdown menu", 
-    category: "Actions & buttons",
+    name: "Dropdown", 
+    category: "Inputs & form controls",
     description: "A floating menu of selectable actions or options.",
     priorityTasks: ["Hover state", "Focus state", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation"]
   },
   { 
-    name: "Form", 
+    name: "File Upload", 
     category: "Inputs & form controls",
-    description: "A structured collection of inputs used for submitting information.",
-    priorityTasks: ["Form fields clearly labeled", "Required fields indicated", "Error messages are clear", "Test keyboard Navigation"]
+    description: "A component that allows users to select and upload one or more files with drag-and-drop support.",
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Error messages are clear"]
   },
   { 
     name: "Input Field", 
@@ -172,7 +178,7 @@ const components = [
     priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Text contrast meets 4.5:1"]
   },
   { 
-    name: "Navigation menu", 
+    name: "Navigation", 
     category: "Navigation & structure",
     description: "A component for navigating between major sections or categories.",
     priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "Keyboard focus indicator visible", "Test keyboard Navigation"]
@@ -194,6 +200,18 @@ const components = [
     category: "Progress & status",
     description: "A visual indicator representing progress toward completion.",
     priorityTasks: ["Component contrast meets 3:1", "Avoid color-only communication", "Text contrast meets 4.5:1"]
+  },
+  { 
+    name: "Timeline", 
+    category: "Progress & status",
+    description: "Shows progress on a process over time with steps that can indicate success, warning, or critical states.",
+    priorityTasks: ["Component contrast meets 3:1", "Avoid color-only communication", "Text contrast meets 4.5:1", "Icons have sufficient contrast", "Test with long text strings"]
+  },
+  { 
+    name: "Radio", 
+    category: "Inputs & form controls",
+    description: "A control that allows users to select a single option from a group of mutually exclusive choices.",
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Touch targets meet 44x44px", "Form fields clearly labeled", "Keyboard focus indicator visible", "Required fields indicated"]
   },
   { 
     name: "Select", 
@@ -226,6 +244,12 @@ const components = [
     priorityTasks: ["Empty state", "Loading state", "Test with long text strings", "Content reflows responsively", "Supports 200% zoom", "Text contrast meets 4.5:1"]
   },
   { 
+    name: "Tree View", 
+    category: "Data & lists",
+    description: "A hierarchical structure with nested levels of navigation for organizing large amounts of information.",
+    priorityTasks: ["Hover state", "Focus state", "Selected state", "Keyboard focus indicator visible", "Test keyboard Navigation", "Icons have sufficient contrast", "Touch targets meet 44x44px"]
+  },
+  { 
     name: "Tabs", 
     category: "Navigation & structure",
     description: "A set of horizontally or vertically arranged triggers that switch between views.",
@@ -236,6 +260,12 @@ const components = [
     category: "Inputs & form controls",
     description: "A multi-line input field.",
     priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Test with long text strings"]
+  },
+  { 
+    name: "Message", 
+    category: "Messaging & feedback",
+    description: "A callout component for displaying supplementary, non-critical content or context to users.",
+    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Icons have sufficient contrast", "Test with long text strings", "Content reflows responsively"]
   },
   { 
     name: "Toast", 
@@ -468,70 +498,82 @@ function Widget() {
         {activeTab === 'setup' && (
           <AutoLayout 
             direction="vertical" 
-            spacing={20} 
+            spacing={12} 
             width="fill-parent"
-            padding={24}
+            padding={8}
             fill="#001D24"
             cornerRadius={10}
           >
-            <AutoLayout direction="vertical" spacing={4} width="fill-parent">
-              <Text fontSize={18} fontWeight={700} fill="#fff">
-                What component are you building?
-              </Text>
-              <Text fontSize={14} fill="#d1d1d1">
-                Select a component to get a customized checklist
-              </Text>
-            </AutoLayout>
             
-            {/* Component List - Flat Alphabetical */}
-              <AutoLayout direction="vertical" fill="#001D24" spacing={12} padding={{horizontal: 12, vertical: 12}} cornerRadius={12} stroke="#232C2F" strokeWidth={1} width="fill-parent">
-              <AutoLayout spacing={4} direction="vertical" width="fill-parent">
-                {/* Sort components alphabetically */}
-                {(() => {
-                  const sortedComponents = [...components].sort((a, b) => a.name.localeCompare(b.name))
-                  return Array.from({ length: Math.ceil(sortedComponents.length / 3) }, (_, rowIndex) => {
-                    const rowItems = sortedComponents.slice(rowIndex * 3, rowIndex * 3 + 3)
-                    return (
-                      <AutoLayout key={rowIndex} direction="horizontal" spacing={4} width="fill-parent">
-                        {rowItems.map((comp) => (
-                          <AutoLayout
-                            key={comp.name}
-                            direction="horizontal"
-                            onClick={() => setSelectedComponent(comp.name)}
-                            spacing={6}
-                            width="fill-parent"
-                            height={48}
-                            padding={{horizontal: 8, vertical: 8}}
-                            fill={selectedComponent === comp.name ? "#172D33" : "#072027"}
-                            cornerRadius={6}
-                            stroke={selectedComponent === comp.name ? "#71AFBE" : "#172D33"}
-                            strokeWidth={1}
-                            hoverStyle={{fill: "#172D33"}}
-                            verticalAlignItems="end"
-                            horizontalAlignItems="start"
-                          >
-                            <Text 
-                              fontSize={13} 
-                              fill="#d1d1d1"
-                              fontWeight={600}
-                            >
-                              {comp.name}
-                            </Text>
+            {/* Component List - Grouped by Category */}
+              <AutoLayout direction="vertical" fill="#001D24" spacing={12} padding={{horizontal: 12, vertical: 12}} cornerRadius={4} stroke="#414B4D" strokeWidth={1} width="fill-parent">
+              {categories.map(category => {
+                const categoryComponents = components.filter(comp => comp.category === category).sort((a, b) => a.name.localeCompare(b.name))
+                if (categoryComponents.length === 0) return null
+                
+                return (
+                  <AutoLayout key={category} direction="vertical" spacing={8} width="fill-parent">
+                    {/* Category Title */}
+                    <Text fontSize={11} fill="#71AFBE" fontWeight={600} letterSpacing={0.5}>
+                      {category.toUpperCase()}
+                    </Text>
+                    
+                    {/* Components in this category */}
+                    <AutoLayout spacing={4} direction="vertical" width="fill-parent">
+                      {Array.from({ length: Math.ceil(categoryComponents.length / 4) }, (_, rowIndex) => {
+                        const rowItems = categoryComponents.slice(rowIndex * 4, rowIndex * 4 + 4)
+                        return (
+                          <AutoLayout key={rowIndex} direction="horizontal" spacing={4} width="fill-parent">
+                            {rowItems.map((comp) => (
+                              <AutoLayout
+                                key={comp.name}
+                                direction="horizontal"
+                                onClick={() => setSelectedComponent(comp.name)}
+                                spacing={6}
+                                width="fill-parent"
+                                height={32}
+                                padding={{horizontal: 8, vertical: 8}}
+                                fill={selectedComponent === comp.name ? "#172D33" : "#072027"}
+                                cornerRadius={6}
+                                stroke={selectedComponent === comp.name ? "#71AFBE" : "#172D33"}
+                                strokeWidth={1}
+                                hoverStyle={{fill: "#172D33"}}
+                                verticalAlignItems="center"
+                                horizontalAlignItems="start"
+                              >
+                                {/* Check icon (only shown when selected) */}
+                                  {selectedComponent === comp.name ? (
+                                    <SVG
+                                      src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D1D1D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`}
+                                      width={12}
+                                      height={12}
+                                    />
+                                  ) : null}
+                                <Text 
+                                  fontSize={12} 
+                                  fill="#d1d1d1"
+                                  fontWeight={600}
+                                >
+                                  {comp.name}
+                                </Text>
+                              </AutoLayout>
+                            ))}
+                            {/* Add spacers for incomplete rows */}
+                            {Array.from({ length: 4 - rowItems.length }).map((_, i) => (
+                              <AutoLayout key={`spacer-${i}`} width="fill-parent" height={1} />
+                            ))}
                           </AutoLayout>
-                        ))}
-                        {/* Add spacers for incomplete rows */}
-                        {Array.from({ length: 3 - rowItems.length }).map((_, i) => (
-                          <AutoLayout key={`spacer-${i}`} width="fill-parent" height={1} />
-                        ))}
-                      </AutoLayout>
-                    )
-                  })
-                })()}
-              </AutoLayout>
+                        )
+                      })}
+                    </AutoLayout>
+                  </AutoLayout>
+                )
+              })}
+            
             {/* Continue Button */}
             {selectedComponent ? (
               <AutoLayout
-                padding={{horizontal: 24, vertical: 12}}
+                padding={{horizontal: 24, vertical: 8}}
                 cornerRadius={6}
                 fill="#71AFBE"
                 stroke="#8FDAED"
@@ -542,9 +584,9 @@ function Widget() {
                 }}
                 width="fill-parent"
                 horizontalAlignItems="center"
-                hoverStyle={{fill: "#000000"}}
+                hoverStyle={{fill: "#A2CFDA"}}
               >
-                <Text fontSize={13} fill="#001D24" fontWeight={700}>Continue to checklist</Text>
+                <Text fontSize={12} fill="#001D24" fontWeight={700}>Continue to checklist</Text>
               </AutoLayout>
             ) : null}
             </AutoLayout>
@@ -558,8 +600,8 @@ function Widget() {
               width="fill-parent"
               padding={12}
               fill="#001D24"
-              cornerRadius={8}
-              stroke="#232C2F"
+              cornerRadius={4}
+              stroke="#414B4D"
               strokeWidth={1}
               verticalAlignItems="center"
             >
@@ -583,9 +625,9 @@ function Widget() {
                   setEnabledTasks(defaultTaskTexts)
                   setActiveTab('tasks')
                 }}
-                hoverStyle={{fill: "#000000"}}
+                hoverStyle={{fill: "#A2CFDA"}}
               >
-                <Text fontSize={13} fill="#001D24" fontWeight={700}>Make custom component</Text>
+                <Text fontSize={12} fill="#001D24" fontWeight={700}>Make custom component</Text>
               </AutoLayout>
             </AutoLayout>
           </AutoLayout>
