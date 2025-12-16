@@ -316,11 +316,19 @@ function Widget() {
 
   const [todos, setTodos] = useSyncedState<TodoItem[]>('todos', [])
   const [newTodoText, setNewTodoText] = useSyncedState('newTodoText', '')
-  const [selectedCategory, setSelectedCategory] = useSyncedState('selectedCategory', 'States')
+  const [newComponentDescription, setNewComponentDescription] = useSyncedState('newComponentDescription', '')
+  const [selectedCategory, setSelectedCategory] = useSyncedState('selectedCategory', 'Actions & buttons')
   const [activeTab, setActiveTab] = useSyncedState('activeTab', 'setup')
   const [enabledTasks, setEnabledTasks] = useSyncedState('enabledTasks', defaultTaskTexts)
   const [expandedCategories, setExpandedCategories] = useSyncedState<string[]>('expandedCategories', [])
   const [selectedComponent, setSelectedComponent] = useSyncedState<string>('selectedComponent', '')
+  // Track completion state per component: { componentName: { taskId: boolean } }
+  const [completionsByComponent, setCompletionsByComponent] = useSyncedState<{ [key: string]: { [key: string]: boolean } }>('completionsByComponent', {})
+  // Track custom components added by user
+  const [customComponents, setCustomComponents] = useSyncedState<Array<{ name: string, category: string, description: string, priorityTasks: string[] }>>('customComponents', [])
+
+  // Combine default and custom components
+  const allComponents = [...components, ...customComponents]
 
   // Initialize todos if empty - using useEffect to avoid setting state during render
   useEffect(() => {
@@ -330,34 +338,44 @@ function Widget() {
   })
 
   const applyComponentFilter = (componentName: string) => {
-    const selected = components.find(c => c.name === componentName)
+    const selected = allComponents.find(c => c.name === componentName)
     if (selected) {
       // Enable only the priority tasks for this component
       setEnabledTasks(selected.priorityTasks)
     }
   }
 
-  const addTodo = () => {
+  const addComponent = () => {
     if (newTodoText.trim()) {
-      const newTodo: TodoItem = {
-        id: Date.now().toString(),
-        text: newTodoText.trim(),
-        completed: false,
+      const newComponent = {
+        name: newTodoText.trim(),
         category: selectedCategory,
-        createdAt: Date.now()
+        description: newComponentDescription.trim() || 'Custom component',
+        priorityTasks: defaultTaskTexts // Use all default tasks for custom components
       }
-      setTodos([...todos, newTodo])
-      // Automatically enable the new custom task so it appears in the Tasks tab
-      setEnabledTasks([...enabledTasks, newTodo.text])
+      setCustomComponents([...customComponents, newComponent])
+      // Set this as the selected component and navigate to tasks
+      setSelectedComponent(newComponent.name)
+      setEnabledTasks(defaultTaskTexts)
       setNewTodoText('')
+      setNewComponentDescription('')
       setActiveTab('tasks')
     }
   }
 
   const toggleTodo = (id: string) => {
-    setTodos(todos.map(todo => 
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ))
+    if (!selectedComponent) return
+    
+    const componentCompletions = completionsByComponent[selectedComponent] || {}
+    const isCompleted = componentCompletions[id] || false
+    
+    setCompletionsByComponent({
+      ...completionsByComponent,
+      [selectedComponent]: {
+        ...componentCompletions,
+        [id]: !isCompleted
+      }
+    })
   }
 
   const toggleCategory = (category: string) => {
@@ -419,23 +437,26 @@ function Widget() {
           <AutoLayout direction="horizontal" spacing={12} width="fill-parent" verticalAlignItems="center" fill={"#001D24"} cornerRadius={{topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0}} padding={6}>
           {/* Home button */}
           <AutoLayout
-            direction="horizontal"
-            spacing={6}
-            padding={{horizontal: 10, vertical: 8}}
             cornerRadius={4}
-            fill="#71AFBE"
+            width="hug-contents"
             horizontalAlignItems="center"
             verticalAlignItems="center"
-            onClick={() => setActiveTab('setup')}
-            hoverStyle={{fill: "#F5F5F5"}}
-            height={20}
-            width={20}
+            spacing={4}
+            padding={{left: 4, right: 6, top: 4, bottom: 4}}
+            hoverStyle={
+              {stroke: "#71AFBE"}
+            }
+            onClick={() => {
+              setActiveTab('setup')
+              setSelectedComponent('')
+            }}
           >
             <SVG
-              src={`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 6L2.5 6M2.5 6L6 9.5M2.5 6L6 2.5" stroke="#001D24" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+              src={`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 6L2.5 6M2.5 6L6 9.5M2.5 6L6 2.5" stroke="#71AFBE" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
               width={12}
               height={12}
             />
+            <Text fontSize={11} fill="#71AFBE" fontWeight={600}>Back to component list</Text>
           </AutoLayout>
           
           {/* Spacer to push Reset button to the right */}
@@ -444,7 +465,11 @@ function Widget() {
           {/* Reset button */}
           <AutoLayout
                 onClick={() => {
-                  setTodos(todos.map(todo => ({ ...todo, completed: false })))
+                  if (selectedComponent) {
+                    const newCompletions = { ...completionsByComponent }
+                    delete newCompletions[selectedComponent]
+                    setCompletionsByComponent(newCompletions)
+                  }
                 }}
                 cornerRadius={4}
                 width="hug-contents"
@@ -459,7 +484,7 @@ function Widget() {
             <SVG
               src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>`}
             />
-            <Text fontSize={12} fill="#71AFBE" fontWeight={600}>Reset</Text>
+            <Text fontSize={11} fill="#71AFBE" fontWeight={600}>Reset</Text>
           </AutoLayout>
         </AutoLayout>
       ) : null}
@@ -482,7 +507,7 @@ function Widget() {
             {/* Component List - Grouped by Category */}
               <AutoLayout direction="vertical" fill="#001D24" spacing={12} padding={{horizontal: 12, vertical: 12}} cornerRadius={4} stroke="#234650" strokeWidth={1} width="fill-parent">
               {categories.map(category => {
-                const categoryComponents = components.filter(comp => comp.category === category).sort((a, b) => a.name.localeCompare(b.name))
+                const categoryComponents = allComponents.filter(comp => comp.category === category).sort((a, b) => a.name.localeCompare(b.name))
                 if (categoryComponents.length === 0) return null
                 
                 return (
@@ -494,15 +519,21 @@ function Widget() {
                     
                     {/* Components in this category */}
                     <AutoLayout spacing={4} direction="vertical" width="fill-parent">
-                      {Array.from({ length: Math.ceil(categoryComponents.length / 4) }, (_, rowIndex) => {
-                        const rowItems = categoryComponents.slice(rowIndex * 4, rowIndex * 4 + 4)
+                      {Array.from({ length: Math.ceil(categoryComponents.length / 3) }, (_, rowIndex) => {
+                        const rowItems = categoryComponents.slice(rowIndex * 3, rowIndex * 3 + 3)
                         return (
                           <AutoLayout key={rowIndex} direction="horizontal" spacing={4} width="fill-parent">
-                            {rowItems.map((comp) => (
+                            {rowItems.map((comp) => {
+                              // Check if all tasks for this component are completed
+                              const componentCompletions = completionsByComponent[comp.name] || {}
+                              const componentTasks = todos.filter(todo => comp.priorityTasks.includes(todo.text))
+                              const allCompleted = componentTasks.length > 0 && componentTasks.every(task => componentCompletions[task.id])
+                              
+                              return (
                               <AutoLayout
                                 key={comp.name}
                                 direction="horizontal"
-                                onClick={() => setSelectedComponent(comp.name)}
+                                onClick={() => setSelectedComponent(selectedComponent === comp.name ? '' : comp.name)}
                                 spacing={6}
                                 width="fill-parent"
                                 height={32}
@@ -515,25 +546,34 @@ function Widget() {
                                 verticalAlignItems="center"
                                 horizontalAlignItems="start"
                               >
-                                {/* Check icon (only shown when selected) */}
-                                  {selectedComponent === comp.name ? (
-                                    <SVG
-                                      src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D1D1D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`}
-                                      width={12}
-                                      height={12}
-                                    />
-                                  ) : null}
                                 <Text 
                                   fontSize={12} 
                                   fill="#d1d1d1"
                                   fontWeight={600}
+                                  width="fill-parent"
                                 >
                                   {comp.name}
                                 </Text>
+                                
+                                {/* Right side icons: completion badge if all complete, otherwise selection checkmark if selected */}
+                                {allCompleted ? (
+                                  <SVG
+                                    src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>`}
+                                    width={16}
+                                    height={16}
+                                  />
+                                ) : selectedComponent === comp.name ? (
+                                  <SVG
+                                    src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D1D1D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`}
+                                    width={12}
+                                    height={12}
+                                  />
+                                ) : null}
                               </AutoLayout>
-                            ))}
+                              )
+                            })}
                             {/* Add spacers for incomplete rows */}
-                            {Array.from({ length: 4 - rowItems.length }).map((_, i) => (
+                            {Array.from({ length: 3 - rowItems.length }).map((_, i) => (
                               <AutoLayout key={`spacer-${i}`} width="fill-parent" height={1} />
                             ))}
                           </AutoLayout>
@@ -545,24 +585,24 @@ function Widget() {
               })}
             
             {/* Continue Button */}
-            {selectedComponent ? (
-              <AutoLayout
-                padding={{horizontal: 24, vertical: 8}}
-                cornerRadius={6}
-                fill="#71AFBE"
-                stroke="#8FDAED"
-                strokeWidth={1}
-                onClick={() => {
-                  applyComponentFilter(selectedComponent)
-                  setActiveTab('tasks')
-                }}
-                width="fill-parent"
-                horizontalAlignItems="center"
-                hoverStyle={{fill: "#A2CFDA"}}
-              >
-                <Text fontSize={12} fill="#001D24" fontWeight={700}>Continue to checklist</Text>
-              </AutoLayout>
-            ) : null}
+            <AutoLayout
+              padding={{horizontal: 24, vertical: 8}}
+              cornerRadius={6}
+              fill={selectedComponent ? "#71AFBE" : "#001D24"}
+              stroke={selectedComponent ? "#8FDAED" : "#234650"}
+              strokeWidth={1}
+              onClick={selectedComponent ? () => {
+                applyComponentFilter(selectedComponent)
+                setActiveTab('tasks')
+              } : undefined}
+              width="fill-parent"
+              horizontalAlignItems="center"
+              hoverStyle={selectedComponent ? {fill: "#A2CFDA"} : undefined}
+            >
+              <Text fontSize={12} fill={selectedComponent ? "#001D24" : "#638F9A"} fontWeight={700}>
+                {selectedComponent ? `Start a checklist for ${selectedComponent}` : "Select a component to start"}
+              </Text>
+            </AutoLayout>
             </AutoLayout>
             
 
@@ -613,6 +653,7 @@ function Widget() {
           const enabledTasksSet = new Set(enabledTasks)
           const visibleTodos = todos.filter(todo => enabledTasksSet.has(todo.text))
           const expandedCategoriesSet = new Set(expandedCategories)
+          const componentCompletions = completionsByComponent[selectedComponent] || {}
           
           // Group todos by category once instead of filtering multiple times
           const todosByCategory = new Map<string, TodoItem[]>()
@@ -655,7 +696,7 @@ function Widget() {
                   {selectedComponent}
                 </Text>
                 <Text fontSize={13} fill="#d1d1d1" width={"fill-parent"}>
-                  {components.find(c => c.name === selectedComponent)?.description || ''}
+                  {allComponents.find(c => c.name === selectedComponent)?.description || ''}
                 </Text>
               </AutoLayout>
             </AutoLayout>
@@ -683,7 +724,7 @@ function Widget() {
                 if (!categoryTodos || categoryTodos.length === 0) return null
                 
                 const isExpanded = expandedCategoriesSet.has(category)
-                const completedCount = categoryTodos.filter(t => t.completed).length
+                const completedCount = categoryTodos.filter(t => componentCompletions[t.id]).length
                 const totalCount = categoryTodos.length
                 
                 return (
@@ -717,8 +758,8 @@ function Widget() {
                         }
                       />
                       
-                      <AutoLayout direction="vertical" spacing={2} width="fill-parent">
-                        <Text fontSize={14} fontWeight={600} fill="#fff">
+                      <AutoLayout direction="vertical" width="fill-parent">
+                        <Text fontSize={12} fontWeight={600} fill="#fff">
                           {category}
                         </Text>
                         <Text fontSize={12} fill="#d1d1d1">
@@ -740,25 +781,28 @@ function Widget() {
                     
                     {/* Accordion Content - 2 column layout for tasks */}
                     {isExpanded && (
-                      <AutoLayout direction="vertical" spacing={4} width="fill-parent" padding={{horizontal: 12, vertical: 12, top: 8, bottom: 8}}>
+                      <AutoLayout direction="vertical" spacing={4} width="fill-parent" padding={{left: 8, right: 8, top: 8, bottom: 8}}>
                         {Array.from({ length: Math.ceil(categoryTodos.length / 2) }, (_, rowIndex) => {
                           const rowItems = categoryTodos.slice(rowIndex * 2, rowIndex * 2 + 2)
                           return (
                             <AutoLayout key={rowIndex} direction="horizontal" spacing={4} width="fill-parent">
-                              {rowItems.map((todo, itemIndex) => (
+                              {rowItems.map((todo, itemIndex) => {
+                                const isCompleted = componentCompletions[todo.id] || false
+                                return (
                                 <AutoLayout
                                   key={todo.id}
                                   direction="horizontal"
-                                  spacing={8}
+                                  verticalAlignItems="center"
+                                  spacing={6}
                                   padding={{horizontal: 4, vertical: 4}}
                                   cornerRadius={16}
-                                  fill={todo.completed ? "#172D33" : "#072027"}
+                                  fill={isCompleted ? "#172D33" : "#072027"}
                                   width={248}
                                   onClick={() => toggleTodo(todo.id)}
                                 >
                                   {/* Checkbox */}
                                   <SVG
-                                    src={todo.completed 
+                                    src={isCompleted 
                                       ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`
                                       : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>`
                                     }
@@ -766,15 +810,17 @@ function Widget() {
 
                                   {/* Task Text */}
                                   <Text 
-                                    fontSize={14} 
-                                    fill={todo.completed ? "#71AFBE" : "#d1d1d1"}
-                                    textDecoration={todo.completed ? "strikethrough" : "none"}
+                                    fontSize={12} 
+                                    lineHeight={12}
+                                    fill={isCompleted ? "#71AFBE" : "#d1d1d1"}
+                                    textDecoration={isCompleted ? "strikethrough" : "none"}
                                     width="fill-parent"
                                   >
                                     {todo.text}
                                   </Text>
                                 </AutoLayout>
-                              ))}
+                                )
+                              })}
                               {/* Add spacer if this row has only one item */}
                               {rowItems.length === 1 && <AutoLayout width={248} height={1} />}
                             </AutoLayout>
@@ -993,23 +1039,69 @@ function Widget() {
               stroke="#172D33"
               strokeWidth={1}
             >
-              <Text fontSize={16} fontWeight={600} fill="#fff">
-                Add custom task
+              <Text fontSize={14} fontWeight={600} fill="#fff">
+                Add custom component
               </Text>
+
+              {/* Component Name Input */}
+              <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+                <Text fontSize={12} fill="#d1d1d1">Component name</Text>
+                <AutoLayout
+                  padding={12}
+                  fill="#001D24"
+                  stroke="#71AFBE"
+                  strokeWidth={1}
+                  cornerRadius={6}
+                  width="fill-parent"
+                >
+                  <Input
+                    value={newTodoText}
+                    placeholder=""
+                    onTextEditEnd={(e) => setNewTodoText(e.characters)}
+                    fontSize={12}
+                    fill="#d1d1d1"
+                    inputBehavior="wrap"
+                    width="fill-parent"
+                  />
+                </AutoLayout>
+              </AutoLayout>
+              
+              {/* Component Description Input */}
+              <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+                <Text fontSize={12} fill="#d1d1d1">Component description</Text>
+                <AutoLayout
+                  padding={12}
+                  fill="#001D24"
+                  stroke="#172D33"
+                  strokeWidth={1}
+                  cornerRadius={6}
+                  width="fill-parent"
+                >
+                  <Input
+                    value={newComponentDescription}
+                    placeholder=""
+                    onTextEditEnd={(e) => setNewComponentDescription(e.characters)}
+                    fontSize={12}
+                    fill="#d1d1d1"
+                    inputBehavior="wrap"
+                    width="fill-parent"
+                  />
+                </AutoLayout>
+              </AutoLayout>              
               
               {/* Category Selection */}
               <AutoLayout direction="vertical" spacing={8} width="fill-parent">
-                <Text fontSize={14} fill="#d1d1d1">Category</Text>
+                <Text fontSize={12} fill="#d1d1d1">Category</Text>
                 <AutoLayout direction="vertical" spacing={8} width="fill-parent">
                   {/* Create rows with 2 columns each */}
-                  {Array.from({ length: Math.ceil(taskCategories.length / 2) }, (_, rowIndex) => (
+                  {Array.from({ length: Math.ceil(categories.length / 2) }, (_, rowIndex) => (
                     <AutoLayout key={rowIndex} direction="horizontal" spacing={8} width="fill-parent">
-                      {taskCategories.slice(rowIndex * 2, rowIndex * 2 + 2).map((category) => (
+                      {categories.slice(rowIndex * 2, rowIndex * 2 + 2).map((category) => (
                         <AutoLayout
                           key={category}
                           direction="horizontal"
                           onClick={() => setSelectedCategory(category)}
-                          spacing={8}
+                          spacing={6}
                           width="fill-parent"
                           verticalAlignItems="center"
                         >
@@ -1023,7 +1115,7 @@ function Widget() {
                             height={16}
                           />
                           <Text 
-                            fontSize={13} 
+                            fontSize={12} 
                             fill="#d1d1d1"
                             fontWeight={selectedCategory === category ? 600 : 400}
                           >
@@ -1036,34 +1128,11 @@ function Widget() {
                 </AutoLayout>
               </AutoLayout>
               
-              {/* Task Input */}
-              <AutoLayout direction="vertical" spacing={8} width="fill-parent">
-                <Text fontSize={14} fill="#d1d1d1">Task description</Text>
-                <AutoLayout
-                  padding={12}
-                  fill="#001D24"
-                  stroke="#172D33"
-                  strokeWidth={1}
-                  cornerRadius={6}
-                  width="fill-parent"
-                >
-                  <Input
-                    value={newTodoText}
-                    placeholder="Enter task description..."
-                    onTextEditEnd={(e) => setNewTodoText(e.characters)}
-                    fontSize={14}
-                    fill="#d1d1d1"
-                    inputBehavior="wrap"
-                    width="fill-parent"
-                  />
-                </AutoLayout>
-              </AutoLayout>
-              
               {/* Add Button */}
               <AutoLayout
                   padding={{horizontal: 12, vertical: 8}}
                   cornerRadius={6}
-                  onClick={newTodoText.trim() ? addTodo : undefined}
+                  onClick={newTodoText.trim() ? addComponent : undefined}
                   width="hug-contents"
                   horizontalAlignItems="center"
                   fill={newTodoText.trim() ? "#71AFBE" : "#172D33"}
@@ -1072,7 +1141,7 @@ function Widget() {
                   hoverStyle={newTodoText.trim() ? {fill: "#A2CFDA"} : undefined}
                   opacity={newTodoText.trim() ? 1 : 0.5}
                 >
-                <Text fontSize={12} fill={newTodoText.trim() ? "#001D24" : "#414B4D"} fontWeight={700}>Add task</Text>
+                <Text fontSize={12} fill={newTodoText.trim() ? "#001D24" : "#414B4D"} fontWeight={700}>Add component</Text>
               </AutoLayout>
             </AutoLayout>
           </AutoLayout>
