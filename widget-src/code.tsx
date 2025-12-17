@@ -336,6 +336,11 @@ function Widget() {
   const [completionsByComponent, setCompletionsByComponent] = useSyncedState<{ [key: string]: { [key: string]: boolean } }>('completionsByComponent', {})
   // Track custom components added by user
   const [customComponents, setCustomComponents] = useSyncedState<Array<{ name: string, category: string, description: string, priorityTasks: string[] }>>('customComponents', [])
+  // Track custom task lists per component: { componentName: string[] }
+  const [customTaskLists, setCustomTaskLists] = useSyncedState<{ [key: string]: string[] }>('customTaskLists', {})
+  // Track new task being added in settings
+  const [newTaskText, setNewTaskText] = useSyncedState('newTaskText', '')
+  const [newTaskCategory, setNewTaskCategory] = useSyncedState('newTaskCategory', 'States')
 
   // Combine default and custom components
   const allComponents = [...components, ...customComponents]
@@ -350,8 +355,9 @@ function Widget() {
   const applyComponentFilter = (componentName: string) => {
     const selected = allComponents.find(c => c.name === componentName)
     if (selected) {
-      // Enable only the priority tasks for this component
-      setEnabledTasks(selected.priorityTasks)
+      // Use custom task list if available, otherwise use component's priority tasks
+      const tasksToUse = customTaskLists[componentName] || selected.priorityTasks
+      setEnabledTasks(tasksToUse)
       // Expand all categories by default
       const taskCategories = ['States', 'Linting', 'Props & variants', 'Color & contrast', 'Touch & interaction', 'Content & labels', 'Layout & zoom', 'Documentation', 'Testing', 'Figma features']
       setExpandedCategories(taskCategories)
@@ -478,6 +484,27 @@ function Widget() {
           
           {/* Spacer to push Reset button to the right */}
           <AutoLayout width="fill-parent" height={1} />
+          
+          {/* Settings button */}
+          <AutoLayout
+                onClick={() => {
+                  setActiveTab('taskSettings')
+                }}
+                cornerRadius={4}
+                width="hug-contents"
+                horizontalAlignItems="center"
+                verticalAlignItems="center"
+                spacing={4}
+                padding={4}
+                hoverStyle={
+                  {stroke: "#71AFBE"}
+                }
+          >
+            <SVG
+              src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>`}
+            />
+            <Text fontSize={11} fill="#71AFBE" fontWeight={600}>Settings</Text>
+          </AutoLayout>
           
           {/* Reset button */}
           <AutoLayout
@@ -1202,6 +1229,255 @@ function Widget() {
               </AutoLayout>
             </AutoLayout>
           </AutoLayout>
+          )
+        })()}
+
+        {/* Task Settings Tab - Manage tasks for current component */}
+        {activeTab === 'taskSettings' && selectedComponent && (() => {
+          const currentComponent = allComponents.find(c => c.name === selectedComponent)
+          if (!currentComponent) return null
+          
+          // Get current task list for this component (custom or default)
+          const currentTasks = customTaskLists[selectedComponent] || currentComponent.priorityTasks
+          
+          // Group tasks by category
+          const tasksByCategory = new Map<string, string[]>()
+          for (const taskText of currentTasks) {
+            const taskDef = defaultComponentTasks.find(t => t.text === taskText)
+            const category = taskDef?.category || 'Custom'
+            if (!tasksByCategory.has(category)) {
+              tasksByCategory.set(category, [])
+            }
+            tasksByCategory.get(category)!.push(taskText)
+          }
+          
+          const categoriesWithTasks = Array.from(tasksByCategory.keys())
+          
+          return (
+            <AutoLayout 
+              direction="vertical" 
+              spacing={12} 
+              width="fill-parent" 
+              padding={8} 
+              fill="#001D24" 
+              cornerRadius={4}
+            >
+              {/* Header */}
+              <AutoLayout 
+                direction="vertical" 
+                spacing={4} 
+                width="fill-parent" 
+                padding={16} 
+                fill="#072027" 
+                cornerRadius={4} 
+                stroke="#172D33" 
+                strokeWidth={1}
+              >
+                <Text fontSize={16} fill="#fff" fontWeight={600}>
+                  Manage {selectedComponent} Tasks
+                </Text>
+                <Text fontSize={13} fill="#d1d1d1">
+                  Add, remove, or customize tasks for this component
+                </Text>
+              </AutoLayout>
+              
+              {/* Current Tasks - Grouped by Category */}
+              <AutoLayout direction="vertical" spacing={8} width="fill-parent">
+                {categoriesWithTasks.map(category => {
+                  const categoryTasks = tasksByCategory.get(category) || []
+                  
+                  return (
+                    <AutoLayout 
+                      key={category} 
+                      direction="vertical" 
+                      spacing={4} 
+                      width="fill-parent"
+                      padding={12}
+                      fill="#072027"
+                      cornerRadius={4}
+                      stroke="#172D33"
+                      strokeWidth={1}
+                    >
+                      <Text fontSize={12} fill="#71AFBE" fontWeight={600} letterSpacing={0.5}>
+                        {category.toUpperCase()}
+                      </Text>
+                      
+                      {categoryTasks.map(taskText => (
+                        <AutoLayout 
+                          key={taskText} 
+                          direction="horizontal" 
+                          spacing={8} 
+                          width="fill-parent" 
+                          verticalAlignItems="center"
+                          padding={8}
+                          fill="#001D24"
+                          cornerRadius={4}
+                        >
+                          <Text fontSize={12} fill="#d1d1d1" width="fill-parent">
+                            {taskText}
+                          </Text>
+                          
+                          {/* Remove button */}
+                          <AutoLayout
+                            onClick={() => {
+                              const newTasks = currentTasks.filter(t => t !== taskText)
+                              setCustomTaskLists({
+                                ...customTaskLists,
+                                [selectedComponent]: newTasks
+                              })
+                              // Update enabled tasks immediately
+                              setEnabledTasks(newTasks)
+                            }}
+                            padding={4}
+                            cornerRadius={4}
+                            hoverStyle={{fill: "#172D33"}}
+                          >
+                            <SVG
+                              src={`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`}
+                            />
+                          </AutoLayout>
+                        </AutoLayout>
+                      ))}
+                    </AutoLayout>
+                  )
+                })}
+              </AutoLayout>
+              
+              {/* Add New Task Section */}
+              <AutoLayout 
+                direction="vertical" 
+                spacing={12} 
+                width="fill-parent" 
+                padding={16} 
+                fill="#072027" 
+                cornerRadius={4} 
+                stroke="#172D33" 
+                strokeWidth={1}
+              >
+                <Text fontSize={14} fill="#fff" fontWeight={600}>
+                  Add New Task
+                </Text>
+                
+                {/* Task Name Input */}
+                <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+                  <Text fontSize={12} fill="#d1d1d1">Task name</Text>
+                  <AutoLayout
+                    padding={12}
+                    fill="#001D24"
+                    stroke="#172D33"
+                    strokeWidth={1}
+                    cornerRadius={6}
+                    width="fill-parent"
+                  >
+                    <Input
+                      value={newTaskText}
+                      placeholder="Enter task name..."
+                      onTextEditEnd={(e) => setNewTaskText(e.characters)}
+                      fontSize={12}
+                      fill="#d1d1d1"
+                      inputBehavior="wrap"
+                      width="fill-parent"
+                    />
+                  </AutoLayout>
+                </AutoLayout>
+                
+                {/* Category Selection */}
+                <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+                  <Text fontSize={12} fill="#d1d1d1">Category</Text>
+                  <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+                    {taskCategories.map(category => (
+                      <AutoLayout
+                        key={category}
+                        direction="horizontal"
+                        onClick={() => setNewTaskCategory(category)}
+                        spacing={8}
+                        padding={8}
+                        width="fill-parent"
+                        verticalAlignItems="center"
+                        fill={newTaskCategory === category ? "#172D33" : "#001D24"}
+                        cornerRadius={4}
+                        hoverStyle={{fill: "#172D33"}}
+                      >
+                        <SVG
+                          src={newTaskCategory === category 
+                            ? `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="#71AFBE" stroke-width="2"/><circle cx="8" cy="8" r="4" fill="#71AFBE"/></svg>`
+                            : `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="#414B4D" stroke-width="2"/></svg>`
+                          }
+                          width={16}
+                          height={16}
+                        />
+                        <Text 
+                          fontSize={12} 
+                          fill="#d1d1d1"
+                          fontWeight={newTaskCategory === category ? 600 : 400}
+                        >
+                          {category}
+                        </Text>
+                      </AutoLayout>
+                    ))}
+                  </AutoLayout>
+                </AutoLayout>
+                
+                {/* Add Task Button */}
+                <AutoLayout
+                  padding={{horizontal: 12, vertical: 8}}
+                  cornerRadius={6}
+                  onClick={newTaskText.trim() ? () => {
+                    // Add task to component's task list
+                    const newTasks = [...currentTasks, newTaskText.trim()]
+                    setCustomTaskLists({
+                      ...customTaskLists,
+                      [selectedComponent]: newTasks
+                    })
+                    // Update enabled tasks immediately
+                    setEnabledTasks(newTasks)
+                    // Add to todos if not already there
+                    const taskExists = todos.some(t => t.text === newTaskText.trim())
+                    if (!taskExists) {
+                      setTodos([...todos, { 
+                        id: `custom-${Date.now()}`, 
+                        text: newTaskText.trim(), 
+                        category: newTaskCategory,
+                        completed: false,
+                        createdAt: Date.now()
+                      }])
+                    }
+                    // Clear input
+                    setNewTaskText('')
+                    // Navigate back to tasks view
+                    setActiveTab('tasks')
+                  } : undefined}
+                  width="fill-parent"
+                  horizontalAlignItems="center"
+                  fill={newTaskText.trim() ? "#71AFBE" : "#172D33"}
+                  stroke={newTaskText.trim() ? "#8FDAED" : "#172D33"}
+                  strokeWidth={1}
+                  hoverStyle={newTaskText.trim() ? {fill: "#A2CFDA"} : undefined}
+                  opacity={newTaskText.trim() ? 1 : 0.5}
+                >
+                  <Text fontSize={12} fill={newTaskText.trim() ? "#001D24" : "#414B4D"} fontWeight={700}>
+                    Add Task
+                  </Text>
+                </AutoLayout>
+              </AutoLayout>
+              
+              {/* Back to Tasks Button */}
+              <AutoLayout
+                padding={{horizontal: 12, vertical: 8}}
+                cornerRadius={6}
+                onClick={() => setActiveTab('tasks')}
+                width="fill-parent"
+                horizontalAlignItems="center"
+                fill="#001D24"
+                stroke="#234650"
+                strokeWidth={1}
+                hoverStyle={{stroke: "#71AFBE"}}
+              >
+                <Text fontSize={12} fill="#71AFBE" fontWeight={700}>
+                  Back to Checklist
+                </Text>
+              </AutoLayout>
+            </AutoLayout>
           )
         })()}
       </AutoLayout>
