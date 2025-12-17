@@ -11,6 +11,7 @@ interface TodoItem {
 
 const defaultComponentTasks = [
   // States
+  { text: "Active state", category: "States" },
   { text: "Disabled state", category: "States" },
   { text: "Empty state", category: "States" },
   { text: "Error state", category: "States" },
@@ -131,7 +132,7 @@ const components = [
     name: "Button",
     category: "Actions & buttons",
     description: "A trigger for an action such as submitting a form, opening a dialog, or navigating.",
-    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Loading state", "Touch targets meet 44x44px", "Text contrast meets 4.5:1", "Keyboard focus indicator", "Buttons have descriptive labels", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
+    priorityTasks: ["Hover state", "Focus state", "Active state", "Disabled state", "Loading state", "Touch targets meet 44x44px", "Text contrast meets 4.5:1", "Keyboard focus indicator", "Buttons have descriptive labels", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
     name: "Icon Button",
