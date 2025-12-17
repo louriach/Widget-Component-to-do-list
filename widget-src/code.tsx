@@ -26,36 +26,36 @@ const defaultComponentTasks = [
   { text: "Compose sub components", category: "Linting" },
   { text: "Name all layers", category: "Linting" },
   
-  // Props & Variants
-  { text: "Create responsive variants", category: "Props & Variants" },
-  { text: "Define all props", category: "Props & Variants" },
-  { text: "Support portrait and landscape", category: "Props & Variants" },
+  // Props & variants
+  { text: "Create responsive variants", category: "Props & variants" },
+  { text: "Define all props", category: "Props & variants" },
+  { text: "Support portrait and landscape", category: "Props & variants" },
   
-  // Color & Contrast
-  { text: "No color-only communication", category: "Color & Contrast" },
-  { text: "Component contrast meets 3:1", category: "Color & Contrast" },
-  { text: "Large text contrast meets 3:1", category: "Color & Contrast" },
-  { text: "Test with color blindness simulator", category: "Color & Contrast" },
-  { text: "Text contrast meets 4.5:1", category: "Color & Contrast" },
+  // Color & contrast
+  { text: "No color-only communication", category: "Color & contrast" },
+  { text: "Component contrast meets 3:1", category: "Color & contrast" },
+  { text: "Large text contrast meets 3:1", category: "Color & contrast" },
+  { text: "Test with color blindness simulator", category: "Color & contrast" },
+  { text: "Text contrast meets 4.5:1", category: "Color & contrast" },
   
-  // Touch & Interaction
-  { text: "Gesture alternatives provided", category: "Touch & Interaction" },
-  { text: "Keyboard focus indicator", category: "Touch & Interaction" },
-  { text: "Touch targets meet 44x44px", category: "Touch & Interaction" },
+  // Touch & interaction
+  { text: "Gesture alternatives provided", category: "Touch & interaction" },
+  { text: "Keyboard focus indicator", category: "Touch & interaction" },
+  { text: "Touch targets meet 44x44px", category: "Touch & interaction" },
   
-  // Content & Labels
-  { text: "Alt text specified for images", category: "Content & Labels" },
-  { text: "Buttons have descriptive labels", category: "Content & Labels" },
-  { text: "Error messages are clear", category: "Content & Labels" },
-  { text: "Form fields clearly labeled", category: "Content & Labels" },
-  { text: "Icons have sufficient contrast", category: "Content & Labels" },
-  { text: "Required fields indicated", category: "Content & Labels" },
+  // Content & labels
+  { text: "Alt text", category: "Content & labels" },
+  { text: "Buttons have descriptive labels", category: "Content & labels" },
+  { text: "Error messages are clear", category: "Content & labels" },
+  { text: "Form fields clearly labeled", category: "Content & labels" },
+  { text: "Icons have sufficient contrast", category: "Content & labels" },
+  { text: "Required fields indicated", category: "Content & labels" },
   
-  // Layout & Zoom
-  { text: "Content reflows responsively", category: "Layout & Zoom" },
-  { text: "No horizontal viewport text scrolling", category: "Layout & Zoom" },
-  { text: "Supports 200% zoom", category: "Layout & Zoom" },
-  { text: "Supports text scaling", category: "Layout & Zoom" },
+  // Layout & zoom
+  { text: "Content reflows responsively", category: "Layout & zoom" },
+  { text: "No horizontal viewport text scrolling", category: "Layout & zoom" },
+  { text: "Supports 200% zoom", category: "Layout & zoom" },
+  { text: "Supports text scaling", category: "Layout & zoom" },
   
   // Documentation
   { text: "Add alias names", category: "Documentation" },
@@ -67,10 +67,20 @@ const defaultComponentTasks = [
   // Testing
   { text: "Test autolayout flexibility", category: "Testing" },
   { text: "Test in light and dark mode", category: "Testing" },
-  { text: "Test keyboard Navigation", category: "Testing" },
+  { text: "Test keyboard navigation", category: "Testing" },
   { text: "Test on mobile viewport", category: "Testing" },
   { text: "Test with long text strings", category: "Testing" },
-  { text: "Test with screen reader", category: "Testing" }
+  { text: "Test with screen reader", category: "Testing" },
+  
+  // Figma features
+  { text: "Variables applied", category: "Figma features" },
+  { text: "Auto layout applied", category: "Figma features" },
+  { text: "Layers named", category: "Figma features" },
+  { text: "Sub components created", category: "Figma features" },
+  { text: "Spec sheet", category: "Figma features" },
+  { text: "Code Connect", category: "Figma features" },
+  { text: "Component description", category: "Figma features" },
+  { text: "Component Link", category: "Figma features" }
 ]
 
 // Component definitions with priority tasks
@@ -79,211 +89,211 @@ const components = [
     name: "Accordion", 
     category: "Navigation & structure",
     description: "A vertically stacked set of expandable sections that reveal or hide content.",
-    priorityTasks: ["Hover state", "Focus state", "Keyboard focus indicator ", "Test keyboard Navigation", "Icons have sufficient contrast"]
+    priorityTasks: ["Hover state", "Focus state", "Keyboard focus indicator ", "Test keyboard navigation", "Icons have sufficient contrast", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
     name: "Alert", 
     category: "Messaging & feedback",
     description: "A prominent message that alerts users to important information, system events, or actions requiring attention.",
-    priorityTasks: ["Component contrast meets 3:1", "Icons have sufficient contrast", "No color-only communication", "Text contrast meets 4.5:1", "Error messages are clear"]
+    priorityTasks: ["Component contrast meets 3:1", "Icons have sufficient contrast", "No color-only communication", "Text contrast meets 4.5:1", "Error messages are clear", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
     name: "Avatar", 
     category: "Media & visual content",
     description: "A small visual representation of a user, entity, or object—often an image, initials, or icon.",
-    priorityTasks: ["Alt text specified for images", "Component contrast meets 3:1"]
+    priorityTasks: ["Alt text", "Component contrast meets 3:1", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
     name: "Badge", 
     category: "Media & visual content",
     description: "A compact indicator used to display status, counts, or attributes.",
-    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Supports text scaling"]
+    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Supports text scaling", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
     name: "Image", 
     category: "Media & visual content",
     description: "Media for capturing attention and communicating messages through photos or graphics.",
-    priorityTasks: ["Alt text specified for images", "Test with color blindness simulator", "Text contrast meets 4.5:1", "Create responsive variants", "Supports 200% zoom"]
+    priorityTasks: ["Alt text", "Test with color blindness simulator", "Text contrast meets 4.5:1", "Create responsive variants", "Responsive size options", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Video", 
+    name: "Video",
     category: "Media & visual content",
     description: "A player for displaying and controlling video content with playback controls and accessibility features.",
-    priorityTasks: ["Alt text specified for images", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard Navigation", "Component contrast meets 3:1", "Icons have sufficient contrast", "No color-only communication"]
+    priorityTasks: ["Alt text", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard navigation", "Component contrast meets 3:1", "Icons have sufficient contrast", "No color-only communication", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Breadcrumb", 
+    name: "Breadcrumb",
     category: "Navigation & structure",
     description: "A navigation pattern showing the user's position in the site hierarchy.",
-    priorityTasks: ["Hover state", "Focus state", "Keyboard focus indicator", "Buttons have descriptive labels"]
+    priorityTasks: ["Hover state", "Focus state", "Keyboard focus indicator", "Buttons have descriptive labels", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Button", 
+    name: "Button",
     category: "Actions & buttons",
     description: "A trigger for an action such as submitting a form, opening a dialog, or navigating.",
-    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Loading state", "Touch targets meet 44x44px", "Text contrast meets 4.5:1", "Keyboard focus indicator", "Buttons have descriptive labels"]
+    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Loading state", "Touch targets meet 44x44px", "Text contrast meets 4.5:1", "Keyboard focus indicator", "Buttons have descriptive labels", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Icon Button", 
+    name: "Icon Button",
     category: "Actions & buttons",
     description: "A button represented by an icon without visible text, designed for compact actions.",
-    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Icons have sufficient contrast", "Keyboard focus indicator", "Buttons have descriptive labels", "Component contrast meets 3:1"]
+    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Icons have sufficient contrast", "Keyboard focus indicator", "Buttons have descriptive labels", "Component contrast meets 3:1", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Calendar", 
+    name: "Calendar",
     category: "Inputs & form controls",
     description: "A visual date selection grid.",
-    priorityTasks: ["Focus state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard Navigation", "Form fields clearly labeled"]
+    priorityTasks: ["Focus state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard navigation", "Form fields clearly labeled", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Card / Tile", 
+    name: "Card / Tile",
     category: "Navigation & structure",
     description: "A contained block that groups related content and actions.",
-    priorityTasks: ["Hover state", "Empty state", "Test with long text strings", "Content reflows responsively", "Component contrast meets 3:1"]
+    priorityTasks: ["Hover state", "Empty state", "Test with long text strings", "Content reflows responsively", "Component contrast meets 3:1", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Checkbox", 
+    name: "Checkbox",
     category: "Inputs & form controls",
     description: "A control that allows users to select one or multiple independent options.",
-    priorityTasks: ["Focus state", "Disabled state", "Error state", "Touch targets meet 44x44px", "Form fields clearly labeled", "Keyboard focus indicator"]
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Touch targets meet 44x44px", "Form fields clearly labeled", "Keyboard focus indicator", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Combobox", 
+    name: "Combobox",
     category: "Inputs & form controls",
     description: "A combination of input and dropdown that lets users select or type a value.",
-    priorityTasks: ["Focus state", "Empty state", "Loading state", "Form fields clearly labeled", "Keyboard focus indicator", "Test keyboard Navigation"]
+    priorityTasks: ["Focus state", "Empty state", "Loading state", "Form fields clearly labeled", "Keyboard focus indicator", "Test keyboard navigation", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Dialog", 
+    name: "Dialog",
     category: "Overlays & layering",
     description: "A modal UI element that captures user focus and requires interaction.",
-    priorityTasks: ["Focus state", "Keyboard focus indicator", "Test keyboard Navigation", "Component contrast meets 3:1"]
+    priorityTasks: ["Focus state", "Keyboard focus indicator", "Test keyboard navigation", "Component contrast meets 3:1", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Dropdown", 
+    name: "Dropdown",
     category: "Inputs & form controls",
     description: "A floating menu of selectable actions or options.",
-    priorityTasks: ["Hover state", "Focus state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard Navigation"]
+    priorityTasks: ["Hover state", "Focus state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard navigation", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "File Upload", 
+    name: "File Upload",
     category: "Inputs & form controls",
     description: "A component that allows users to select and upload one or more files with drag-and-drop support.",
-    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Touch targets meet 44x44px", "Keyboard focus indicator", "Error messages are clear"]
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Touch targets meet 44x44px", "Keyboard focus indicator", "Error messages are clear", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Input Field", 
+    name: "Input Field",
     category: "Inputs & form controls",
     description: "A field for entering or editing text.",
-    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Text contrast meets 4.5:1"]
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Text contrast meets 4.5:1", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Navigation", 
+    name: "Navigation",
     category: "Navigation & structure",
     description: "A component for navigating between major sections or categories.",
-    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard Navigation"]
+    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard navigation", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Pagination", 
+    name: "Pagination",
     category: "Navigation & structure",
     description: "A control for navigating between pages of content.",
-    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Keyboard focus indicator"]
+    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Popover", 
+    name: "Popover",
     category: "Overlays & layering",
     description: "A non-modal, contextual layer that presents supplementary content.",
-    priorityTasks: ["Focus state", "Keyboard focus indicator", "Test keyboard Navigation", "Component contrast meets 3:1"]
+    priorityTasks: ["Focus state", "Keyboard focus indicator", "Test keyboard navigation", "Component contrast meets 3:1", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Progress", 
+    name: "Progress",
     category: "Progress & status",
     description: "A visual indicator representing progress toward completion.",
-    priorityTasks: ["Component contrast meets 3:1", "No color-only communication", "Text contrast meets 4.5:1"]
+    priorityTasks: ["Component contrast meets 3:1", "No color-only communication", "Text contrast meets 4.5:1", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Timeline", 
+    name: "Timeline",
     category: "Progress & status",
     description: "Shows progress on a process over time with steps that can indicate success, warning, or critical states.",
-    priorityTasks: ["Component contrast meets 3:1", "No color-only communication", "Text contrast meets 4.5:1", "Icons have sufficient contrast", "Test with long text strings"]
+    priorityTasks: ["Component contrast meets 3:1", "No color-only communication", "Text contrast meets 4.5:1", "Icons have sufficient contrast", "Test with long text strings", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Radio", 
+    name: "Radio",
     category: "Inputs & form controls",
     description: "A control that allows users to select a single option from a group of mutually exclusive choices.",
-    priorityTasks: ["Focus state", "Disabled state", "Error state", "Touch targets meet 44x44px", "Form fields clearly labeled", "Keyboard focus indicator", "Required fields indicated"]
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Touch targets meet 44x44px", "Form fields clearly labeled", "Keyboard focus indicator", "Required fields indicated", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Select", 
+    name: "Select",
     category: "Inputs & form controls",
     description: "A control for selecting one item from a predefined list.",
-    priorityTasks: ["Focus state", "Disabled state", "Error state", "Empty state", "Form fields clearly labeled", "Required fields indicated", "Keyboard focus indicator"]
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Empty state", "Form fields clearly labeled", "Required fields indicated", "Keyboard focus indicator", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Sidebar", 
+    name: "Sidebar",
     category: "Navigation & structure",
     description: "A vertical, persistent panel used for navigation or secondary content.",
-    priorityTasks: ["Create responsive variants", "Content reflows responsively", "Touch targets meet 44x44px"]
+    priorityTasks: ["Create responsive variants", "Content reflows responsively", "Touch targets meet 44x44px", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Slider", 
+    name: "Slider",
     category: "Inputs & form controls",
     description: "A control allowing users to select a numeric value by dragging a handle.",
-    priorityTasks: ["Focus state", "Disabled state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Form fields clearly labeled"]
+    priorityTasks: ["Focus state", "Disabled state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Form fields clearly labeled", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Switch", 
+    name: "Switch",
     category: "Inputs & form controls",
     description: "A binary toggle representing an on/off state.",
-    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Form fields clearly labeled", "No color-only communication"]
+    priorityTasks: ["Hover state", "Focus state", "Disabled state", "Touch targets meet 44x44px", "Form fields clearly labeled", "No color-only communication", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Table", 
+    name: "Table",
     category: "Data & lists",
     description: "A structured, sortable display of rows and columns.",
-    priorityTasks: ["Empty state", "Loading state", "Test with long text strings", "Content reflows responsively", "Supports 200% zoom", "Text contrast meets 4.5:1"]
+    priorityTasks: ["Empty state", "Loading state", "Test with long text strings", "Content reflows responsively", "Supports 200% zoom", "Text contrast meets 4.5:1", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Tree View", 
+    name: "Tree View",
     category: "Data & lists",
     description: "A hierarchical structure with nested levels of navigation for organizing large amounts of information.",
-    priorityTasks: ["Hover state", "Focus state", "Selected state", "Keyboard focus indicator", "Test keyboard Navigation", "Icons have sufficient contrast", "Touch targets meet 44x44px"]
+    priorityTasks: ["Hover state", "Focus state", "Selected state", "Keyboard focus indicator", "Test keyboard navigation", "Icons have sufficient contrast", "Touch targets meet 44x44px", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Tabs", 
+    name: "Tabs",
     category: "Navigation & structure",
     description: "A set of horizontally or vertically arranged triggers that switch between views.",
-    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard Navigation"]
+    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "Keyboard focus indicator", "Test keyboard navigation", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Textarea", 
+    name: "Textarea",
     category: "Inputs & form controls",
     description: "A multi-line input field.",
-    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Test with long text strings"]
+    priorityTasks: ["Focus state", "Disabled state", "Error state", "Form fields clearly labeled", "Required fields indicated", "Test with long text strings", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Message", 
+    name: "Message",
     category: "Messaging & feedback",
     description: "A callout component for displaying supplementary, non-critical content or context to users.",
-    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Icons have sufficient contrast", "Test with long text strings", "Content reflows responsively"]
+    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Icons have sufficient contrast", "Test with long text strings", "Content reflows responsively", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Toast", 
+    name: "Toast",
     category: "Messaging & feedback",
     description: "An ephemeral notification that appears temporarily without blocking UI.",
-    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "No color-only communication", "Icons have sufficient contrast"]
+    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "No color-only communication", "Icons have sufficient contrast", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Toggle", 
+    name: "Toggle",
     category: "Actions & buttons",
     description: "A selectable, often pill-shaped control for switching between states or options.",
-    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "No color-only communication"]
+    priorityTasks: ["Hover state", "Focus state", "Selected state", "Touch targets meet 44x44px", "No color-only communication", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   },
   { 
-    name: "Tooltip", 
+    name: "Tooltip",
     category: "Overlays & layering",
     description: "A small contextual hint that appears on hover or focus.",
-    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Keyboard focus indicator", "Test keyboard Navigation"]
+    priorityTasks: ["Component contrast meets 3:1", "Text contrast meets 4.5:1", "Keyboard focus indicator", "Test keyboard navigation", "Variables applied", "Auto layout applied", "Layers named", "Sub components created", "Spec sheet", "Code Connect", "Component description", "Component Link"]
   }
 ]
 
@@ -342,6 +352,9 @@ function Widget() {
     if (selected) {
       // Enable only the priority tasks for this component
       setEnabledTasks(selected.priorityTasks)
+      // Expand all categories by default
+      const taskCategories = ['States', 'Linting', 'Props & variants', 'Color & contrast', 'Touch & interaction', 'Content & labels', 'Layout & zoom', 'Documentation', 'Testing', 'Figma features']
+      setExpandedCategories(taskCategories)
     }
   }
 
@@ -357,6 +370,9 @@ function Widget() {
       // Set this as the selected component and navigate to tasks
       setSelectedComponent(newComponent.name)
       setEnabledTasks(defaultTaskTexts)
+      // Expand all categories by default
+      const taskCategories = ['States', 'Linting', 'Props & variants', 'Color & contrast', 'Touch & interaction', 'Content & labels', 'Layout & zoom', 'Documentation', 'Testing', 'Figma features']
+      setExpandedCategories(taskCategories)
       setNewTodoText('')
       setNewComponentDescription('')
       setActiveTab('tasks')
@@ -405,17 +421,18 @@ function Widget() {
     // Using static mapping only
     if (category === 'States') return '#4CAF50'
     if (category === 'Linting') return '#607D8B'
-    if (category === 'Props & Variants') return '#2196F3'
-    if (category === 'Color & Contrast') return '#FF9800'
-    if (category === 'Touch & Interaction') return '#9C27B0'
-    if (category === 'Content & Labels') return '#00BCD4'
-    if (category === 'Layout & Zoom') return '#795548'
+    if (category === 'Props & variants') return '#2196F3'
+    if (category === 'Color & contrast') return '#FF9800'
+    if (category === 'Touch & interaction') return '#9C27B0'
+    if (category === 'Content & labels') return '#00BCD4'
+    if (category === 'Layout & zoom') return '#795548'
     if (category === 'Documentation') return '#FF5722'
     if (category === 'Testing') return '#F44336'
+    if (category === 'Figma features') return '#3F51B5'
     return '#9E9E9E'
   }
 
-  const taskCategories = ['States', 'Linting', 'Props & Variants', 'Color & Contrast', 'Touch & Interaction', 'Content & Labels', 'Layout & Zoom', 'Documentation', 'Testing']
+  const taskCategories = ['States', 'Linting', 'Props & variants', 'Color & contrast', 'Touch & interaction', 'Content & labels', 'Layout & zoom', 'Documentation', 'Testing', 'Figma features']
 
   return (
     <AutoLayout
@@ -675,27 +692,25 @@ function Widget() {
             {/* Component Title */}
             <AutoLayout
               direction="horizontal"
-              spacing={12}
+              spacing={8}
               width="fill-parent"
-              padding={{horizontal: 12, vertical: 16}}
-              fill="#172D33"
+              padding={{horizontal: 14, vertical: 12}}
+              fill="#71AFBE"
               cornerRadius={4}
-              stroke="#234650"
-              strokeWidth={1}
             >
               {/* Icon */}
               <SVG
-                src={`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.41074 0.589256C9.73618 0.26382 10.2638 0.263819 10.5893 0.589256L14.0261 4.02615C14.3516 4.35159 14.3516 4.87922 14.0261 5.20466L10.5893 8.64155C10.2638 8.96699 9.73618 8.96699 9.41074 8.64155L5.97385 5.20466C5.64841 4.87922 5.64841 4.35159 5.97385 4.02615L9.41074 0.589256Z" fill="#71AFBE"/><path d="M4.02615 5.97385C4.35159 5.64841 4.87922 5.64841 5.20466 5.97385L8.64155 9.41074C8.96699 9.73618 8.96699 10.2638 8.64155 10.5893L5.20466 14.0261C4.87922 14.3516 4.35159 14.3516 4.02615 14.0261L0.589256 10.5893C0.26382 10.2638 0.263819 9.73618 0.589256 9.41074L4.02615 5.97385Z" fill="#71AFBE"/><path d="M14.7953 5.97385C15.1208 5.64841 15.6484 5.64841 15.9739 5.97385L19.4107 9.41074C19.7362 9.73618 19.7362 10.2638 19.4107 10.5893L15.9739 14.0261C15.6484 14.3516 15.1208 14.3516 14.7953 14.0261L11.3584 10.5893C11.033 10.2638 11.033 9.73618 11.3584 9.41074L14.7953 5.97385Z" fill="#71AFBE"/><path d="M9.41074 11.3584C9.73618 11.033 10.2638 11.033 10.5893 11.3584L14.0261 14.7953C14.3516 15.1208 14.3516 15.6484 14.0261 15.9739L10.5893 19.4107C10.2638 19.7362 9.73618 19.7362 9.41074 19.4107L5.97385 15.9739C5.64841 15.6484 5.64841 15.1208 5.97385 14.7953L9.41074 11.3584Z" fill="#71AFBE"/></svg>`}
-                width={20}
-                height={20}
+                src={`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_3232_34034)"><path d="M7.52876 0.471629C7.78911 0.21128 8.21121 0.211279 8.47161 0.471629L11.221 3.22114C11.4814 3.4815 11.4814 3.9036 11.221 4.16395L8.47161 6.91346C8.21121 7.17382 7.78911 7.17382 7.52876 6.91346L4.77925 4.16395C4.5189 3.9036 4.5189 3.4815 4.77925 3.22114L7.52876 0.471629Z" fill="#072027"/><path d="M3.22017 4.77925C3.48052 4.5189 3.90262 4.5189 4.16298 4.77925L6.91249 7.52876C7.17284 7.78911 7.17284 8.21121 6.91249 8.47161L4.16298 11.221C3.90262 11.4814 3.48052 11.4814 3.22017 11.221L0.470653 8.47161C0.210304 8.21121 0.210303 7.78911 0.470653 7.52876L3.22017 4.77925Z" fill="#072027"/><path d="M11.8364 4.77925C12.0968 4.5189 12.5188 4.5189 12.7792 4.77925L15.5287 7.52876C15.7891 7.78911 15.7891 8.21121 15.5287 8.47161L12.7792 11.221C12.5188 11.4814 12.0968 11.4814 11.8364 11.221L9.08684 8.47161C8.82652 8.21121 8.82652 7.78911 9.08684 7.52876L11.8364 4.77925Z" fill="#072027"/><path d="M7.52876 9.08684C7.78911 8.82652 8.21121 8.82652 8.47161 9.08684L11.221 11.8364C11.4814 12.0968 11.4814 12.5188 11.221 12.7792L8.47161 15.5287C8.21121 15.7891 7.78911 15.7891 7.52876 15.5287L4.77925 12.7792C4.5189 12.5188 4.5189 12.0968 4.77925 11.8364L7.52876 9.08684Z" fill="#072027"/></g><defs><clipPath id="clip0_3232_34034"><rect width="16" height="16" fill="white"/></clipPath></defs></svg>`}
+                width={16}
+                height={16}
               />
               
               {/* Text Content */}
               <AutoLayout direction="vertical" spacing={2} width="fill-parent">
-                <Text fontSize={14} fill="#fff" fontWeight={700} width={"fill-parent"}>
+                <Text fontSize={14} lineHeight={16} fill="#072027" fontWeight={700} width={"fill-parent"}>
                   {selectedComponent}
                 </Text>
-                <Text fontSize={13} fill="#d1d1d1" width={"fill-parent"}>
+                <Text fontSize={13} fill="#203E46" width={"fill-parent"}>
                   {allComponents.find(c => c.name === selectedComponent)?.description || ''}
                 </Text>
               </AutoLayout>
@@ -741,32 +756,73 @@ function Widget() {
                     <AutoLayout
                       cornerRadius={6}
                       direction="horizontal"
-                      spacing={12}
+                      spacing={8}
                       padding={{horizontal: 12, vertical: 12}}
-                      fill="#072027"
+                      fill="#172D33"
                       width="fill-parent"
                       verticalAlignItems="center"
-                      onClick={() => toggleCategory(category)}
                       stroke="#234650"
                       strokeWidth={1}
                     >
-                      {/* Expand/Collapse Icon */}
-                      <SVG
-                        src={isExpanded
-                          ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`
-                          : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`
-                        }
-                      />
-                      
-                      <AutoLayout direction="vertical" width="fill-parent">
-                        <Text fontSize={12} fontWeight={600} fill="#fff">
-                          {category}
-                        </Text>
-                        <Text fontSize={12} fill="#d1d1d1">
-                          {completedCount} of {totalCount} completed
-                        </Text>
+                      {/* Clickable area for expand/collapse */}
+                      <AutoLayout
+                        direction="horizontal"
+                        spacing={8}
+                        width="fill-parent"
+                        verticalAlignItems="center"
+                        onClick={() => toggleCategory(category)}
+                      >
+                        {/* Expand/Collapse Icon */}
+                        <SVG
+                          src={isExpanded
+                            ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`
+                            : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71AFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`
+                          }
+                        />
+                        
+                        <AutoLayout direction="vertical" width="fill-parent">
+                          <Text fontSize={12} fontWeight={600} fill="#fff">
+                            {category}
+                          </Text>
+                          <Text fontSize={12} fill="#d1d1d1">
+                            {completedCount} of {totalCount} completed
+                          </Text>
+                        </AutoLayout>
                       </AutoLayout>
                       
+                        {/* Complete all / Uncheck all button */}
+                        <AutoLayout
+                          onClick={() => {
+                            const newCompletions = { ...componentCompletions }
+                            if (completedCount === totalCount) {
+                              // Uncheck all tasks in this category
+                              categoryTodos.forEach(todo => {
+                                newCompletions[todo.id] = false
+                              })
+                            } else {
+                              // Mark all tasks in this category as complete
+                              categoryTodos.forEach(todo => {
+                                newCompletions[todo.id] = true
+                              })
+                            }
+                            setCompletionsByComponent({
+                              ...completionsByComponent,
+                              [selectedComponent]: newCompletions
+                            })
+                          }}
+                          cornerRadius={4}
+                          width="hug-contents"
+                          horizontalAlignItems="center"
+                          verticalAlignItems="center"
+                          spacing={4}
+                          padding={4}
+                          hoverStyle={{stroke: "#71AFBE"}}
+                        >
+                          <Text fontSize={11} fill="#71AFBE" fontWeight={600}>
+                            {completedCount === totalCount ? "Uncheck all" : "Check all"}
+                          </Text>
+                        </AutoLayout>
+
                       {/* Progress Badge */}
                       <AutoLayout
                         padding={{horizontal: 8, vertical: 4}}
@@ -777,6 +833,7 @@ function Widget() {
                           {Math.round((completedCount / totalCount) * 100)}%
                         </Text>
                       </AutoLayout>
+                      
                     </AutoLayout>
                     
                     {/* Accordion Content - 2 column layout for tasks */}
@@ -793,7 +850,7 @@ function Widget() {
                                   key={todo.id}
                                   direction="horizontal"
                                   verticalAlignItems="center"
-                                  spacing={6}
+                                  spacing={8}
                                   padding={{horizontal: 4, vertical: 4}}
                                   cornerRadius={16}
                                   fill={isCompleted ? "#172D33" : "#072027"}
